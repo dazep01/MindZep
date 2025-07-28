@@ -803,79 +803,67 @@
     </footer>
 
 <script>
-    <script>
-        // URL data kuis
-        const quizDataUrl = "https://raw.githubusercontent.com/dazep01/MindZep/main/tools/ketahanan/aq_questions.json";
-        
-        // Variabel state aplikasi
-        let quizData = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let shuffledQuestions = [];
-        const scores = {
-            "Control": 0,
-            "Ownership": 0,
-            "Reach": 0,
-            "Endurance": 0
-        };
-        
-        // Elemen DOM
-        const introScreen = document.getElementById('introScreen');
-        const quizSection = document.getElementById('quizSection');
-        const resultSection = document.getElementById('resultSection');
-        const questionContainer = document.getElementById('questionContainer');
-        const startBtn = document.getElementById('startBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressText = document.getElementById('progress-text');
-        const progressFill = document.getElementById('progress-fill');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const restartBtn = document.getElementById('restartBtn');
-        const scoreContainer = document.getElementById('scoreContainer');
-        
-        // Fungsi untuk mengambil data kuis
-        async function fetchQuizData() {
-            try {
-                const response = await fetch(quizDataUrl);
-                quizData = await response.json();
-            } catch (error) {
-                console.error("Gagal mengambil data kuis:", error);
-                // Fallback jika tidak bisa fetch data
-                quizData = [
-                    // Data fallback...
-                ];
-            }
-        }
-        
-        // Fungsi untuk mengacak array
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
-        // Fungsi untuk memulai kuis
-        function startQuiz() {
-            // Acak pertanyaan
-            shuffledQuestions = shuffleArray([...quizData]);
-            userAnswers = Array(shuffledQuestions.length).fill(null);
-            currentQuestionIndex = 0;
-            
-            // Reset skor
-            Object.keys(scores).forEach(dimension => {
-                scores[dimension] = 0;
-            });
+    // URL data kuis
+    const quizDataUrl = "https://dazep01.github.io/MindZep/tools/ketahanan/aq_questions.json";
     
-            // Tampilkan bagian kuis
-            introScreen.style.display = 'none';
-            quizSection.style.display = 'block';
-            resultSection.style.display = 'none';
-            
-            // Tampilkan pertanyaan pertama
-            showQuestion(currentQuestionIndex);
+    // Variabel state aplikasi
+    let quizData = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let shuffledQuestions = [];
+    
+    // Elemen DOM
+    const introScreen = document.getElementById('introScreen');
+    const quizSection = document.getElementById('quizSection');
+    const resultSection = document.getElementById('resultSection');
+    const questionContainer = document.getElementById('questionContainer');
+    const startBtn = document.getElementById('startBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressText = document.getElementById('progress-text');
+    const progressFill = document.getElementById('progress-fill');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const scoreContainer = document.getElementById('scoreContainer');
+    const interpretationContainer = document.getElementById('interpretationContainer');
+    
+    // Fungsi untuk mengambil data kuis
+    async function fetchQuizData() {
+        try {
+            const response = await fetch(quizDataUrl);
+            quizData = await response.json();
+        } catch (error) {
+            console.error("Gagal mengambil data kuis:", error);
+            // Fallback jika tidak bisa fetch data
+            quizData = [];
+            alert("Gagal memuat data kuis. Silakan coba lagi nanti.");
         }
+    }
+    
+    // Fungsi untuk mengacak array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Fungsi untuk memulai kuis
+    function startQuiz() {
+        // Acak pertanyaan
+        shuffledQuestions = shuffleArray([...quizData]);
+        userAnswers = Array(shuffledQuestions.length).fill(null);
+        currentQuestionIndex = 0;
+        
+        // Tampilkan bagian kuis
+        introScreen.style.display = 'none';
+        quizSection.style.display = 'block';
+        resultSection.style.display = 'none';
+        
+        // Tampilkan pertanyaan pertama
+        showQuestion(currentQuestionIndex);
+    }
     
     // Fungsi untuk menampilkan pertanyaan
     function showQuestion(index) {
@@ -987,31 +975,35 @@
         return normalizedScores;
     }
     
-    // Fungsi untuk menghitung skor komposit AQ
+    // Fungsi untuk menghitung skor komposit
     function calculateCompositeScore(scores) {
+        // Dimensi utama untuk skor komposit
         const mainDimensions = ['Control', 'Ownership', 'Reach', 'Endurance'];
-        const compositeScore = mainDimensions.reduce((sum, dim) => sum + scores[dim], 0) / 4;
         
-        // Klasifikasi berdasarkan standar AQ
+        // Hitung rata-rata skor dimensi utama
+        const total = mainDimensions.reduce((sum, dim) => sum + scores[dim], 0);
+        const compositeScore = Math.round(total / mainDimensions.length);
+        
+        // Tentukan klasifikasi
         let classification = '';
         let description = '';
         
         if (compositeScore >= 80) {
             classification = 'A';
-            description = 'Tingkat Elite: Ketahanan psikologis luar biasa';
+            description = 'Elite: Ketahanan psikologis sangat tinggi';
         } else if (compositeScore >= 65) {
             classification = 'B';
-            description = 'Tingkat Unggul: Ketahanan di atas rata-rata';
+            description = 'Unggul: Ketahanan di atas rata-rata';
         } else if (compositeScore >= 50) {
             classification = 'C';
-            description = 'Tingkat Menengah: Ketahanan cukup tapi perlu pengembangan';
+            description = 'Menengah: Ketahanan cukup dengan ruang peningkatan';
         } else {
             classification = 'D';
-            description = 'Tingkat Dasar: Perlu peningkatan signifikan';
+            description = 'Dasar: Perlu pengembangan ketahanan lebih lanjut';
         }
         
         return {
-            score: Math.round(compositeScore),
+            score: compositeScore,
             classification,
             description
         };
@@ -1043,11 +1035,11 @@
             `;
         }
         
-        // Interpretasi komposit
+        // Interpretasi skor komposit
         const compositeInterpretation = `
         <div class="composite-interpretation">
-            <h3>Skor Keseluruhan AQ: ${composite.score} (${composite.classification})</h3>
-            <p>${composite.description}</p>
+            <h3><i class="fas fa-star"></i> Skor Keseluruhan: ${composite.score}/100 (${composite.classification})</h3>
+            <p><strong>${composite.description}</strong> - Ini menunjukkan tingkat ketahanan psikologis Anda secara umum.</p>
         </div>
         `;
         
@@ -1069,26 +1061,20 @@
         return validityMessage + compositeInterpretation + dimensionInterpretation;
     }
     
-    // Fungsi untuk menampilkan skor komposit
-    function renderCompositeScore(composite) {
-        return `
-        <div class="composite-score">
-            <div class="composite-value">
-                <span class="composite-number">${composite.score}</span>
-                <span class="composite-class">${composite.classification}</span>
-            </div>
-            <div class="composite-description">${composite.description}</div>
-        </div>
-        `;
-    }
-    
     // Fungsi untuk menampilkan hasil
     function showResults() {
         const scores = calculateScores();
         const composite = calculateCompositeScore(scores);
         
         // Tampilkan skor komposit
-        const compositeHTML = renderCompositeScore(composite);
+        const compositeHTML = `
+        <div class="composite-score">
+            <div class="composite-value">
+                <span class="composite-number">${composite.score}</span>
+                <span class="composite-class">${composite.classification}</span>
+            </div>
+            <div class="composite-description">${composite.description}</div>
+        </div>`;
         
         // Tampilkan skor Lie Scale secara terpisah
         const lieScaleHTML = `
@@ -1113,7 +1099,6 @@
                 </div>
             `).join('');
         
-        // Gabungkan semua elemen skor
         scoreContainer.innerHTML = compositeHTML + lieScaleHTML + mainScoresHTML;
         
         // Tambahkan interpretasi

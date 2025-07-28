@@ -136,11 +136,24 @@
             font-size: 2rem;
             margin-bottom: 15px;
         }
-        
-        .dimension-card.control .dimension-icon { color: var(--primary); }
-        .dimension-card.ownership .dimension-icon { color: var(--teal); }
-        .dimension-card.reach .dimension-icon { color: var(--warning); }
-        .dimension-card.endurance .dimension-icon { color: var(--success); }
+
+.score-card.liescale::before {
+    background: #9b59b6 !important; /* Warna ungu khusus */
+}
+
+/* Warna khusus untuk dimensi */
+.score-card.control::before { background: var(--primary); }
+.score-card.ownership::before { background: var(--teal); }
+.score-card.reach::before { background: var(--warning); }
+.score-card.endurance::before { background: var(--success); }
+
+.alert-warning {
+    background: rgba(243, 156, 18, 0.2);
+    border-left: 4px solid var(--warning);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 0 8px 8px 0;
+}
         
         .dimension-card h3 {
             margin-bottom: 10px;
@@ -533,6 +546,75 @@
             opacity: 0.8;
             margin-top: auto;
         }
+
+            /* CSS untuk skor komposit */
+    .composite-score {
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .composite-value {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .composite-number {
+        font-size: 4rem;
+        font-weight: bold;
+    }
+    
+    .composite-class {
+        font-size: 3rem;
+        background: white;
+        color: #b21f1f;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .composite-description {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    
+    .composite-interpretation {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 4px solid #3498db;
+    }
+    
+    .composite-interpretation h3 {
+        color: #3498db;
+        margin-bottom: 10px;
+    }
+    
+    /* Alert untuk peringatan Lie Scale */
+    .alert-warning {
+        background: rgba(243, 156, 18, 0.2);
+        border-left: 4px solid #f39c12;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    /* Warna khusus untuk Lie Scale */
+    .score-card.liescale::before {
+        background: #9b59b6 !important;
+    }
         
         @media (max-width: 768px) {
             .intro-title {
@@ -628,7 +710,7 @@
                 <i class="fas fa-play-circle"></i> Mulai Tes Sekarang
             </button>
             
-            <p><small>Waktu yang dibutuhkan: sekitar 5-7 menit</small></p>
+            <p><small>Waktu yang dibutuhkan: sekitar 10-15 menit</small></p>
         </div>
         
         <!-- Bagian Kuis -->
@@ -653,7 +735,7 @@
             <div class="progress-container">
                 <div class="progress-header">
                     <span>Progress Kuis</span>
-                    <span id="progress-text">1/20</span>
+                    <span id="progress-text">1/40</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
@@ -686,6 +768,10 @@
             <div class="score-container" id="scoreContainer">
                 <!-- Skor akan di-generate oleh JavaScript -->
             </div>
+
+             <div id="interpretationContainer">
+                <!-- Interpretasi akan diisi di sini -->
+             </div>
             
             <div class="result-details">
                 <h3><i class="fas fa-lightbulb"></i> Interpretasi Hasil</h3>
@@ -715,301 +801,416 @@
     <footer>
         <p>© 2023 MindZep - Alat Pengembangan Diri | Kuis Adversity Quotient (AQ)</p>
     </footer>
+
+<script>
+    // URL data kuis
+    const quizDataUrl = "https://raw.githubusercontent.com/dazep01/MindZep/main/tools/ketahanan/aq_questions.json";
     
-    <script>
-        // URL data kuis
-        const quizDataUrl = "https://raw.githubusercontent.com/dazep01/MindZep/main/tools/ketahanan/aq_questions.json";
+    // Variabel state aplikasi
+    let quizData = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let shuffledQuestions = [];
+    
+    // Elemen DOM
+    const introScreen = document.getElementById('introScreen');
+    const quizSection = document.getElementById('quizSection');
+    const resultSection = document.getElementById('resultSection');
+    const questionContainer = document.getElementById('questionContainer');
+    const startBtn = document.getElementById('startBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressText = document.getElementById('progress-text');
+    const progressFill = document.getElementById('progress-fill');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const scoreContainer = document.getElementById('scoreContainer');
+    const interpretationContainer = document.getElementById('interpretationContainer');
+    
+    // Fungsi untuk mengambil data kuis
+    async function fetchQuizData() {
+        try {
+            const response = await fetch(quizDataUrl);
+            quizData = await response.json();
+        } catch (error) {
+            console.error("Gagal mengambil data kuis:", error);
+            // Fallback jika tidak bisa fetch data
+            quizData = [];
+            alert("Gagal memuat data kuis. Silakan coba lagi nanti.");
+        }
+    }
+    
+    // Fungsi untuk mengacak array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Fungsi untuk memulai kuis
+    function startQuiz() {
+        // Acak pertanyaan
+        shuffledQuestions = shuffleArray([...quizData]);
+        userAnswers = Array(shuffledQuestions.length).fill(null);
+        currentQuestionIndex = 0;
         
-        // Variabel state aplikasi
-        let quizData = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let shuffledQuestions = [];
-        const scores = {
-            "Control": 0,
-            "Ownership": 0,
-            "Reach": 0,
-            "Endurance": 0
+        // Tampilkan bagian kuis
+        introScreen.style.display = 'none';
+        quizSection.style.display = 'block';
+        resultSection.style.display = 'none';
+        
+        // Tampilkan pertanyaan pertama
+        showQuestion(currentQuestionIndex);
+    }
+    
+    // Fungsi untuk menampilkan pertanyaan
+    function showQuestion(index) {
+        const question = shuffledQuestions[index];
+        let optionsHtml = '';
+        
+        // Buat opsi jawaban
+        question.options.forEach((option, optionIndex) => {
+            const isSelected = userAnswers[index] === optionIndex;
+            optionsHtml += `
+                <div class="option ${isSelected ? 'selected' : ''}" data-index="${optionIndex}">
+                    <div class="option-badge">${String.fromCharCode(65 + optionIndex)}</div>
+                    <div class="option-text">${option}</div>
+                </div>
+            `;
+        });
+        
+        // Tampilkan pertanyaan
+        questionContainer.innerHTML = `
+            <div class="question-box">
+                <div class="question-header">
+                    <div class="question-id">${index + 1}</div>
+                    <div class="question-dimension">${question.dimension}</div>
+                </div>
+                <div class="question-text">${question.question}</div>
+                <div class="options-container">
+                    ${optionsHtml}
+                </div>
+                <div class="reflection-box">
+                    <i class="fas fa-lightbulb reflection-icon"></i>
+                    <span>${question.reflection}</span>
+                </div>
+            </div>
+        `;
+        
+        // Tambahkan event listener ke opsi
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedIndex = parseInt(option.dataset.index);
+                userAnswers[index] = selectedIndex;
+                
+                // Tandai opsi yang dipilih
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                option.classList.add('selected');
+                
+                // Tampilkan refleksi
+                document.querySelector('.reflection-box').style.display = 'flex';
+            });
+        });
+        
+        // Perbarui progress
+        updateProgress();
+        
+        // Sembunyikan tombol sebelumnya jika di pertanyaan pertama
+        prevBtn.style.display = index === 0 ? 'none' : 'flex';
+        
+        // Ubah teks tombol berikutnya jika di pertanyaan terakhir
+        if (index === shuffledQuestions.length - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-check-circle"></i> Selesaikan Kuis';
+            nextBtn.classList.add('btn-submit');
+            nextBtn.classList.remove('btn-next');
+        } else {
+            nextBtn.innerHTML = 'Berikutnya <i class="fas fa-arrow-right"></i>';
+            nextBtn.classList.remove('btn-submit');
+            nextBtn.classList.add('btn-next');
+        }
+    }
+    
+    // Fungsi untuk memperbarui progress
+    function updateProgress() {
+        const answeredCount = userAnswers.filter(answer => answer !== null).length;
+        const progress = ((currentQuestionIndex + 1) / shuffledQuestions.length) * 100;
+        
+        progressText.textContent = `${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
+        progressFill.style.width = `${progress}%`;
+    }
+    
+    // Fungsi untuk menghitung skor
+    function calculateScores() {
+        // Inisialisasi skor mentah
+        const rawScores = {
+            Control: 0,
+            Ownership: 0,
+            Reach: 0,
+            Endurance: 0,
+            LieScale: 0
         };
         
-        // Elemen DOM
-        const introScreen = document.getElementById('introScreen');
-        const quizSection = document.getElementById('quizSection');
-        const resultSection = document.getElementById('resultSection');
-        const questionContainer = document.getElementById('questionContainer');
-        const startBtn = document.getElementById('startBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressText = document.getElementById('progress-text');
-        const progressFill = document.getElementById('progress-fill');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const restartBtn = document.getElementById('restartBtn');
-        const scoreContainer = document.getElementById('scoreContainer');
-        
-        // Fungsi untuk mengambil data kuis
-        async function fetchQuizData() {
-            try {
-                const response = await fetch(quizDataUrl);
-                quizData = await response.json();
-            } catch (error) {
-                console.error("Gagal mengambil data kuis:", error);
-                // Fallback jika tidak bisa fetch data
-                quizData = [
-                    // Data fallback...
-                ];
+        // Hitung skor mentah
+        shuffledQuestions.forEach((question, index) => {
+            const answerIndex = userAnswers[index];
+            if (answerIndex !== null) {
+                rawScores[question.dimension] += question.weights[answerIndex];
             }
+        });
+        
+        // Normalisasi skor (0-100)
+        const normalizedScores = {};
+        for (const dimension in rawScores) {
+            // Hitung jumlah pertanyaan per dimensi
+            const questionCount = shuffledQuestions.filter(q => q.dimension === dimension).length;
+            // Maksimal skor per dimensi = jumlah pertanyaan * 3
+            const maxScore = questionCount * 3;
+            normalizedScores[dimension] = Math.min(100, Math.round((rawScores[dimension] / maxScore) * 100));
         }
         
-        // Fungsi untuk mengacak array
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
+        return normalizedScores;
+    }
+    
+    // Fungsi untuk menghitung skor komposit AQ
+    function calculateCompositeScore(scores) {
+        const mainDimensions = ['Control', 'Ownership', 'Reach', 'Endurance'];
+        const compositeScore = mainDimensions.reduce((sum, dim) => sum + scores[dim], 0) / 4;
+        
+        // Klasifikasi berdasarkan standar AQ
+        let classification = '';
+        let description = '';
+        
+        if (compositeScore >= 80) {
+            classification = 'A';
+            description = 'Tingkat Elite: Ketahanan psikologis luar biasa';
+        } else if (compositeScore >= 65) {
+            classification = 'B';
+            description = 'Tingkat Unggul: Ketahanan di atas rata-rata';
+        } else if (compositeScore >= 50) {
+            classification = 'C';
+            description = 'Tingkat Menengah: Ketahanan cukup tapi perlu pengembangan';
+        } else {
+            classification = 'D';
+            description = 'Tingkat Dasar: Perlu peningkatan signifikan';
         }
         
-        // Fungsi untuk memulai kuis
-        function startQuiz() {
-            // Acak pertanyaan
-            shuffledQuestions = shuffleArray([...quizData]);
-            userAnswers = Array(shuffledQuestions.length).fill(null);
-            currentQuestionIndex = 0;
-            
-            // Reset skor
-            Object.keys(scores).forEach(dimension => {
-                scores[dimension] = 0;
-            });
-            
-            // Tampilkan bagian kuis
-            introScreen.style.display = 'none';
-            quizSection.style.display = 'block';
-            resultSection.style.display = 'none';
-            
-            // Tampilkan pertanyaan pertama
-            showQuestion(currentQuestionIndex);
-        }
-        
-        // Fungsi untuk menampilkan pertanyaan
-        function showQuestion(index) {
-            const question = shuffledQuestions[index];
-            let optionsHtml = '';
-            
-            // Buat opsi jawaban
-            question.options.forEach((option, optionIndex) => {
-                const isSelected = userAnswers[index] === optionIndex;
-                optionsHtml += `
-                    <div class="option ${isSelected ? 'selected' : ''}" data-index="${optionIndex}">
-                        <div class="option-badge">${String.fromCharCode(65 + optionIndex)}</div>
-                        <div class="option-text">${option}</div>
-                    </div>
-                `;
-            });
-            
-            // Tampilkan pertanyaan
-            questionContainer.innerHTML = `
-                <div class="question-box">
-                    <div class="question-header">
-                        <div class="question-id">${index + 1}</div>
-                        <div class="question-dimension">${question.dimension}</div>
-                    </div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options-container">
-                        ${optionsHtml}
-                    </div>
-                    <div class="reflection-box">
-                        <i class="fas fa-lightbulb reflection-icon"></i>
-                        <span>${question.reflection}</span>
-                    </div>
-                </div>
+        return {
+            score: Math.round(compositeScore),
+            classification,
+            description
+        };
+    }
+    
+    // Fungsi untuk mendapatkan deskripsi dimensi
+    function getDimensionDescription(dim) {
+        const descriptions = {
+            Control: "Kemampuan mengendalikan respons terhadap masalah",
+            Ownership: "Rasa tanggung jawab terhadap solusi masalah",
+            Reach: "Dampak masalah terhadap aspek hidup lain",
+            Endurance: "Ketahanan dan keyakinan akan berakhirnya masalah",
+            LieScale: "Tingkat kejujuran dalam menjawab kuis"
+        };
+        return descriptions[dim] || "";
+    }
+    
+    // Fungsi interpretasi hasil
+    function interpretResults(scores, composite) {
+        // Validasi hasil berdasarkan Lie Scale
+        let validityMessage = '';
+        if(scores.LieScale > 80) {
+            validityMessage = `
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> 
+                Perhatian: Skor kejujuran (Lie Scale) Anda tinggi. 
+                Hasil tes mungkin kurang akurat karena kecenderungan menjawab secara ideal.
+            </div>
             `;
-            
-            // Tambahkan event listener ke opsi
-            document.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', () => {
-                    const selectedIndex = parseInt(option.dataset.index);
-                    userAnswers[index] = selectedIndex;
-                    
-                    // Tandai opsi yang dipilih
-                    document.querySelectorAll('.option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    option.classList.add('selected');
-                    
-                    // Tampilkan refleksi
-                    document.querySelector('.reflection-box').style.display = 'flex';
-                });
-            });
-            
-            // Perbarui progress
-            updateProgress();
-            
-            // Sembunyikan tombol sebelumnya jika di pertanyaan pertama
-            prevBtn.style.display = index === 0 ? 'none' : 'flex';
-            
-            // Ubah teks tombol berikutnya jika di pertanyaan terakhir
-            if (index === shuffledQuestions.length - 1) {
-                nextBtn.innerHTML = '<i class="fas fa-check-circle"></i> Selesaikan Kuis';
-                nextBtn.classList.add('btn-submit');
-                nextBtn.classList.remove('btn-next');
-            } else {
-                nextBtn.innerHTML = 'Berikutnya <i class="fas fa-arrow-right"></i>';
-                nextBtn.classList.remove('btn-submit');
-                nextBtn.classList.add('btn-next');
-            }
         }
         
-        // Fungsi untuk memperbarui progress
-        function updateProgress() {
-            const answeredCount = userAnswers.filter(answer => answer !== null).length;
-            const progress = ((currentQuestionIndex + 1) / shuffledQuestions.length) * 100;
-            
-            progressText.textContent = `${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
-            progressFill.style.width = `${progress}%`;
-        }
+        // Interpretasi komposit
+        const compositeInterpretation = `
+        <div class="composite-interpretation">
+            <h3>Skor Keseluruhan AQ: ${composite.score} (${composite.classification})</h3>
+            <p>${composite.description}</p>
+        </div>
+        `;
         
-        // Fungsi untuk menghitung skor
-        function calculateScores() {
-            shuffledQuestions.forEach((question, index) => {
-                const answerIndex = userAnswers[index];
-                if (answerIndex !== null) {
-                    scores[question.dimension] += question.weights[answerIndex];
-                }
-            });
-            
-            // Normalisasi skor (0-100)
-            Object.keys(scores).forEach(dimension => {
-                // Hitung jumlah pertanyaan per dimensi
-                const questionCount = shuffledQuestions.filter(q => q.dimension === dimension).length;
-                // Maksimal skor per dimensi = jumlah pertanyaan * 3
-                const maxScore = questionCount * 3;
-                scores[dimension] = Math.round((scores[dimension] / maxScore) * 100);
-            });
-            
-            return scores;
-        }
-        
-        // Fungsi untuk menampilkan hasil
-        function showResults() {
-            const scores = calculateScores();
-            
-            // Tampilkan skor
-            scoreContainer.innerHTML = `
-                <div class="score-card control">
-                    <div class="score-dimension">Control</div>
-                    <div class="score-value">${scores.Control}</div>
-                    <div class="score-description">Kemampuan mengendalikan respons terhadap masalah</div>
-                </div>
-                <div class="score-card ownership">
-                    <div class="score-dimension">Ownership</div>
-                    <div class="score-value">${scores.Ownership}</div>
-                    <div class="score-description">Rasa tanggung jawab terhadap solusi masalah</div>
-                </div>
-                <div class="score-card reach">
-                    <div class="score-dimension">Reach</div>
-                    <div class="score-value">${scores.Reach}</div>
-                    <div class="score-description">Dampak masalah terhadap aspek hidup lain</div>
-                </div>
-                <div class="score-card endurance">
-                    <div class="score-dimension">Endurance</div>
-                    <div class="score-value">${scores.Endurance}</div>
-                    <div class="score-description">Ketahanan dan keyakinan akan berakhirnya masalah</div>
-                </div>
-            `;
-            
-            // Tampilkan hasil
-            quizSection.style.display = 'none';
-            resultSection.style.display = 'block';
-            
-            // Scroll ke atas
-            window.scrollTo(0, 0);
-        }
-        
-        // Fungsi untuk mengunduh hasil sebagai PDF
-        function downloadAsPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const element = document.querySelector('.result-section');
-            
-            html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = doc.internal.pageSize.getWidth() - 20;
-                const pageHeight = doc.internal.pageSize.getHeight();
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
+        // Interpretasi untuk dimensi utama
+        const dimensionInterpretation = Object.keys(scores)
+            .filter(dim => dim !== "LieScale")
+            .map(dim => {
+                const score = scores[dim];
+                let interpretation = '';
                 
+                if(score >= 80) interpretation = `Kekuatan luar biasa di ${dim}!`;
+                else if(score >= 60) interpretation = `Cukup baik di ${dim}, tetap pertahankan!`;
+                else if(score >= 40) interpretation = `Perlu peningkatan di ${dim}`;
+                else interpretation = `Perlu perhatian serius di ${dim}`;
+                
+                return `<p><strong>${dim}:</strong> ${interpretation} (${score}/100)</p>`;
+            }).join('');
+        
+        return validityMessage + compositeInterpretation + dimensionInterpretation;
+    }
+    
+    // Fungsi untuk menampilkan skor komposit
+    function renderCompositeScore(composite) {
+        return `
+        <div class="composite-score">
+            <div class="composite-value">
+                <span class="composite-number">${composite.score}</span>
+                <span class="composite-class">${composite.classification}</span>
+            </div>
+            <div class="composite-description">${composite.description}</div>
+        </div>
+        `;
+    }
+    
+    // Fungsi untuk menampilkan hasil
+    function showResults() {
+        const scores = calculateScores();
+        const composite = calculateCompositeScore(scores);
+        
+        // Tampilkan skor komposit
+        const compositeHTML = renderCompositeScore(composite);
+        
+        // Tampilkan skor Lie Scale secara terpisah
+        const lieScaleHTML = `
+        <div class="score-card liescale">
+            <div class="score-dimension">Kejujuran (Lie Scale)</div>
+            <div class="score-value">${scores.LieScale}</div>
+            <div class="score-description">
+                ${scores.LieScale > 80 ? 
+                "Mungkin ada kecenderungan menjawab secara ideal" : 
+                "Respon menunjukkan kejujuran yang baik"}
+            </div>
+        </div>`;
+        
+        // Tampilkan skor dimensi utama
+        const mainScoresHTML = Object.keys(scores)
+            .filter(dim => dim !== "LieScale")
+            .map(dim => `
+                <div class="score-card ${dim.toLowerCase()}">
+                    <div class="score-dimension">${dim}</div>
+                    <div class="score-value">${scores[dim]}</div>
+                    <div class="score-description">${getDimensionDescription(dim)}</div>
+                </div>
+            `).join('');
+        
+        // Gabungkan semua elemen skor
+        scoreContainer.innerHTML = compositeHTML + lieScaleHTML + mainScoresHTML;
+        
+        // Tambahkan interpretasi
+        interpretationContainer.innerHTML = interpretResults(scores, composite);
+        
+        // Tampilkan bagian hasil
+        quizSection.style.display = 'none';
+        resultSection.style.display = 'block';
+        
+        // Scroll ke atas
+        window.scrollTo(0, 0);
+    }
+    
+    // Fungsi untuk mengunduh hasil sebagai PDF
+    function downloadAsPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const element = document.querySelector('.result-section');
+        
+        html2canvas(element, {
+            scale: 2,
+            useCORS: true,
+            logging: false
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = doc.internal.pageSize.getWidth() - 20;
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 10;
+            
+            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            // Tambahkan halaman baru jika konten terlalu panjang
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                doc.addPage();
                 doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
-                
-                // Tambahkan halaman baru jika konten terlalu panjang
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                
-                // Simpan PDF
-                doc.save('Hasil_Kuis_Ketahanan_Psikologis.pdf');
-            });
+            }
+            
+            // Simpan PDF
+            doc.save('Hasil_Kuis_Ketahanan_Psikologis.pdf');
+        });
+    }
+    
+    // Event listeners
+    startBtn.addEventListener('click', startQuiz);
+    
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion(currentQuestionIndex);
+        }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        if (userAnswers[currentQuestionIndex] === null) {
+            alert('Silakan pilih salah satu jawaban sebelum melanjutkan.');
+            return;
         }
         
-        // Event listeners
-        startBtn.addEventListener('click', startQuiz);
-        
-        prevBtn.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion(currentQuestionIndex);
-            }
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            if (userAnswers[currentQuestionIndex] === null) {
-                alert('Silakan pilih salah satu jawaban sebelum melanjutkan.');
-                return;
-            }
-            
-            if (currentQuestionIndex === shuffledQuestions.length - 1) {
-                showResults();
-            } else {
-                currentQuestionIndex++;
-                showQuestion(currentQuestionIndex);
-            }
-        });
-        
-        downloadBtn.addEventListener('click', downloadAsPDF);
-        
-        restartBtn.addEventListener('click', () => {
-            // Reset state
-            userAnswers = [];
-            shuffledQuestions = [];
-            currentQuestionIndex = 0;
-            
-            // Tampilkan halaman pengantar
-            resultSection.style.display = 'none';
-            introScreen.style.display = 'block';
-            
-            // Scroll ke atas
-            window.scrollTo(0, 0);
-        });
-        
-        // Inisialisasi aplikasi
-        async function init() {
-            await fetchQuizData();
-            
-            // Sembunyikan bagian yang tidak perlu
-            quizSection.style.display = 'none';
-            resultSection.style.display = 'none';
+        if (currentQuestionIndex === shuffledQuestions.length - 1) {
+            showResults();
+        } else {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
         }
+    });
+    
+    downloadBtn.addEventListener('click', downloadAsPDF);
+    
+    restartBtn.addEventListener('click', () => {
+        // Reset state
+        userAnswers = [];
+        shuffledQuestions = [];
+        currentQuestionIndex = 0;
         
-        // Jalankan inisialisasi saat halaman dimuat
-        window.addEventListener('DOMContentLoaded', init);
-    </script>
+        // Tampilkan halaman pengantar
+        resultSection.style.display = 'none';
+        introScreen.style.display = 'block';
+        
+        // Scroll ke atas
+        window.scrollTo(0, 0);
+    });
+    
+    // Inisialisasi aplikasi
+    async function init() {
+        await fetchQuizData();
+        
+        // Sembunyikan bagian yang tidak perlu
+        quizSection.style.display = 'none';
+        resultSection.style.display = 'none';
+        
+        // Pastikan interpretasiContainer ada
+        if (!interpretationContainer) {
+            const interpretationDiv = document.createElement('div');
+            interpretationDiv.id = 'interpretationContainer';
+            document.querySelector('.result-section').insertBefore(
+                interpretationDiv, 
+                document.querySelector('.result-details')
+            );
+        }
+    }
+    
+    // Jalankan inisialisasi saat halaman dimuat
+    window.addEventListener('DOMContentLoaded', init);
+</script>
+    
 </body>
 </html>

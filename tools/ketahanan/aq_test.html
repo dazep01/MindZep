@@ -803,67 +803,79 @@
     </footer>
 
 <script>
-    // URL data kuis
-    const quizDataUrl = "https://dazep01.github.io/MindZep/tools/ketahanan/aq_questions.json";
-    
-    // Variabel state aplikasi
-    let quizData = [];
-    let currentQuestionIndex = 0;
-    let userAnswers = [];
-    let shuffledQuestions = [];
-    
-    // Elemen DOM
-    const introScreen = document.getElementById('introScreen');
-    const quizSection = document.getElementById('quizSection');
-    const resultSection = document.getElementById('resultSection');
-    const questionContainer = document.getElementById('questionContainer');
-    const startBtn = document.getElementById('startBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const progressText = document.getElementById('progress-text');
-    const progressFill = document.getElementById('progress-fill');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const scoreContainer = document.getElementById('scoreContainer');
-    const interpretationContainer = document.getElementById('interpretationContainer');
-    
-    // Fungsi untuk mengambil data kuis
-    async function fetchQuizData() {
-        try {
-            const response = await fetch(quizDataUrl);
-            quizData = await response.json();
-        } catch (error) {
-            console.error("Gagal mengambil data kuis:", error);
-            // Fallback jika tidak bisa fetch data
-            quizData = [];
-            alert("Gagal memuat data kuis. Silakan coba lagi nanti.");
-        }
-    }
-    
-    // Fungsi untuk mengacak array
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-    
-    // Fungsi untuk memulai kuis
-    function startQuiz() {
-        // Acak pertanyaan
-        shuffledQuestions = shuffleArray([...quizData]);
-        userAnswers = Array(shuffledQuestions.length).fill(null);
-        currentQuestionIndex = 0;
+    <script>
+        // URL data kuis
+        const quizDataUrl = "https://raw.githubusercontent.com/dazep01/MindZep/main/tools/ketahanan/aq_questions.json";
         
-        // Tampilkan bagian kuis
-        introScreen.style.display = 'none';
-        quizSection.style.display = 'block';
-        resultSection.style.display = 'none';
+        // Variabel state aplikasi
+        let quizData = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let shuffledQuestions = [];
+        const scores = {
+            "Control": 0,
+            "Ownership": 0,
+            "Reach": 0,
+            "Endurance": 0
+        };
         
-        // Tampilkan pertanyaan pertama
-        showQuestion(currentQuestionIndex);
-    }
+        // Elemen DOM
+        const introScreen = document.getElementById('introScreen');
+        const quizSection = document.getElementById('quizSection');
+        const resultSection = document.getElementById('resultSection');
+        const questionContainer = document.getElementById('questionContainer');
+        const startBtn = document.getElementById('startBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const scoreContainer = document.getElementById('scoreContainer');
+        
+        // Fungsi untuk mengambil data kuis
+        async function fetchQuizData() {
+            try {
+                const response = await fetch(quizDataUrl);
+                quizData = await response.json();
+            } catch (error) {
+                console.error("Gagal mengambil data kuis:", error);
+                // Fallback jika tidak bisa fetch data
+                quizData = [
+                    // Data fallback...
+                ];
+            }
+        }
+        
+        // Fungsi untuk mengacak array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Fungsi untuk memulai kuis
+        function startQuiz() {
+            // Acak pertanyaan
+            shuffledQuestions = shuffleArray([...quizData]);
+            userAnswers = Array(shuffledQuestions.length).fill(null);
+            currentQuestionIndex = 0;
+            
+            // Reset skor
+            Object.keys(scores).forEach(dimension => {
+                scores[dimension] = 0;
+            });
+    
+            // Tampilkan bagian kuis
+            introScreen.style.display = 'none';
+            quizSection.style.display = 'block';
+            resultSection.style.display = 'none';
+            
+            // Tampilkan pertanyaan pertama
+            showQuestion(currentQuestionIndex);
+        }
     
     // Fungsi untuk menampilkan pertanyaan
     function showQuestion(index) {

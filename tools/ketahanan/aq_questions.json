@@ -241,5 +241,252 @@
     ],
     "weights": [1, 2, 3],
     "reflection": "Kegagalan dunia bukan berarti kegagalan hidup. Allah Maha Menyusun."
+  },
+  // Reverse-scored items (10 soal)
+  {
+    "id": 21,
+    "dimension": "Control",
+    "question": "Ketika masalah muncul, aku merasa tidak mungkin bisa mengendalikan situasi sama sekali",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Keyakinan akan kemampuan mengendalikan situasi adalah langkah pertama menuju solusi."
+  },
+  {
+    "id": 22,
+    "dimension": "Ownership",
+    "question": "Aku percaya bahwa kegagalan hampir selalu disebabkan oleh faktor eksternal di luar kendaliku",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Mengakui peran pribadi adalah pintu menuju pertumbuhan."
+  },
+  {
+    "id": 23,
+    "dimension": "Reach",
+    "question": "Masalah kecil sekalipun biasanya merusak semua aspek hidupku",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Membatasi dampak masalah adalah keterampilan ketahanan yang penting."
+  },
+  {
+    "id": 24,
+    "dimension": "Endurance",
+    "question": "Ketika mengalami kesulitan, aku sering merasa ini akan berlangsung selamanya",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Setiap badai pasti berlalu, setiap malam diikuti pagi."
+  },
+  {
+    "id": 25,
+    "dimension": "Control",
+    "question": "Aku cenderung menyerah ketika menghadapi rintangan yang tampak sulit",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Ketekunan seringkali membuka jalan yang awalnya tampak tertutup."
+  },
+
+  // Lie scale items (10 soal)
+  {
+    "id": 26,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah sekalipun berbohong dalam hidupku",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Kejujuran tentang ketidaksempurnaan adalah dasar pertumbuhan sejati."
+  },
+  {
+    "id": 27,
+    "dimension": "LieScale",
+    "question": "Aku selalu bersikap sempurna dalam setiap situasi sosial",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Menerima ketidaksempurnaan manusiawi adalah tanda kedewasaan."
+  },
+  {
+    "id": 28,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah merasa iri atau cemburu pada siapapun",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Emosi manusiawi adalah bagian dari pengalaman hidup yang otentik."
+  },
+  {
+    "id": 29,
+    "dimension": "LieScale",
+    "question": "Aku selalu membuat keputusan yang 100% rasional tanpa pengaruh emosi",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Keseimbangan antara logika dan emosi adalah kecerdasan sejati."
+  },
+  {
+    "id": 30,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah melakukan kesalahan yang sama dua kali",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Belajar dari kesalahan adalah proses yang lebih penting daripada kesempurnaan."
+
+  // Tambahan reverse-scored (5 soal)
+  },
+  {
+    "id": 31,
+    "dimension": "Ownership",
+    "question": "Ketika tim gagal, itu hampir pasti bukan karena kontribusiku",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Tanggung jawab kolektif adalah fondasi tim yang kuat."
+  },
+  {
+    "id": 32,
+    "dimension": "Reach",
+    "question": "Kegagalan di satu area biasanya membuat semua bidang hidupku kacau",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Membangun sekat antar berbagai bidang hidup adalah perlindungan ketahanan."
+  },
+  {
+    "id": 33,
+    "dimension": "Endurance",
+    "question": "Rasa sakit emosional biasanya terasa permanen bagiku",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Waktu dan kesadaran adalah penyembuh luka yang paling alami."
+  },
+  {
+    "id": 34,
+    "dimension": "Control",
+    "question": "Aku sering merasa menjadi korban keadaan tanpa daya ubah",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Mengakui kekuatan pribadi adalah langkah pertama menuju perubahan."
+  },
+  {
+    "id": 35,
+    "dimension": "Ownership",
+    "question": "Mengakui kesalahan membuatku merasa lemah dan inferior",
+    "options": [
+      "Sangat tidak setuju",
+      "Netral",
+      "Sangat setuju"
+    ],
+    "weights": [3, 2, 1], // Reverse scoring
+    "reflection": "Kerendahan hati untuk mengakui kesalahan adalah kekuatan karakter sejati."
+
+  // Tambahan lie scale (5 soal)
+  },
+  {
+    "id": 36,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah merasa ragu atau tidak yakin tentang keputusanku",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Keraguan yang diakui adalah pintu menuju pertimbangan yang lebih matang."
+  },
+  {
+    "id": 37,
+    "dimension": "LieScale",
+    "question": "Aku selalu 100% konsisten antara kata-kata dan perbuatanku",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Keotentikan lebih bernilai daripada kesempurnaan semu."
+  },
+  {
+    "id": 38,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah mengalami konflik batin atau pertentangan nilai",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Perjalanan pertumbuhan sering diwarnai pergulatan batin yang produktif."
+  },
+  {
+    "id": 39,
+    "dimension": "LieScale",
+    "question": "Setiap tindakanku selalu didasarkan pada pertimbangan moral yang sempurna",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Kejujuran tentang ketidaksempurnaan moral adalah dasar integritas sejati."
+  },
+  {
+    "id": 40,
+    "dimension": "LieScale",
+    "question": "Aku tidak pernah merasa perlu menyembunyikan kesalahan atau kelemahanku",
+    "options": [
+      "Tidak benar",
+      "Kadang-kadang",
+      "Selalu benar"
+    ],
+    "weights": [1, 2, 3],
+    "reflection": "Vulnerabilitas yang tulus adalah kekuatan hubungan manusia."
   }
 ]

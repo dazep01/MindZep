@@ -1,1 +1,839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Check | Tes Kesehatan Mental</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+        }
+        .option-btn.selected {
+            background-color: #6366f1;
+            color: white;
+            border-color: #6366f1;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-in;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="gradient-bg text-white py-6 shadow-lg">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <h1 class="text-xl md:text-2xl font-bold">Mental Health Check</h1>
+                </div>
+                <div id="progress-container" class="hidden md:flex items-center space-x-2">
+                    <span id="progress-text" class="text-sm font-medium">0%</span>
+                    <div class="w-32 bg-white bg-opacity-30 rounded-full h-2.5">
+                        <div id="progress-bar" class="bg-white h-2.5 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="fade-in max-w-3xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 card">
+                    <div class="flex justify-center mb-6">
+                        <div class="gradient-bg rounded-full p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4">Selamat Datang di Mental Health Check</h2>
+                    <p class="text-gray-600 text-center mb-6">Tes ini dirancang untuk membantu Anda memahami kondisi kesehatan mental Anda saat ini. Kombinasi dari PHQ-9, GAD-7, dan pertanyaan tambahan akan memberikan gambaran komprehensif.</p>
+                    
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6 rounded-r-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-indigo-700">
+                                    Tes ini membutuhkan waktu sekitar 5-10 menit. Jawablah dengan jujur untuk hasil yang akurat. Semua data Anda bersifat privat.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+                            <div class="flex-1 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center">
+                                    <div class="rounded-full bg-indigo-100 p-2 mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Tervalidasi</h3>
+                                        <p class="text-sm text-gray-500">Menggunakan instrumen standar klinis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center">
+                                    <div class="rounded-full bg-indigo-100 p-2 mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Komprehensif</h3>
+                                        <p class="text-sm text-gray-500">Menilai berbagai aspek kesehatan mental</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+                            <div class="flex-1 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center">
+                                    <div class="rounded-full bg-indigo-100 p-2 mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Privasi</h3>
+                                        <p class="text-sm text-gray-500">Data Anda tidak disimpan di server</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center">
+                                    <div class="rounded-full bg-indigo-100 p-2 mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Hasil Lengkap</h3>
+                                        <p class="text-sm text-gray-500">Unduh hasil dalam format PDF</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-center">
+                        <button id="start-btn" class="gradient-bg text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center pulse">
+                            <span>Mulai Tes</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="quiz-screen" class="hidden fade-in max-w-3xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 card">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span id="question-number" class="text-sm font-medium text-indigo-600">Pertanyaan 1 dari 28</span>
+                            <span id="question-category" class="text-sm font-medium px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">Mood</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-6">
+                            <div id="question-progress" class="bg-indigo-600 h-1.5 rounded-full progress-bar" style="width: 0%"></div>
+                        </div>
+                        <h3 id="question-text" class="text-xl md:text-2xl font-medium text-gray-800 mb-6">Loading question...</h3>
+                        
+                        <div id="options-container" class="space-y-3">
+                            <!-- Options will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-btn" class="text-indigo-600 font-medium py-2 px-4 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition-colors duration-300 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                            </svg>
+                            Sebelumnya
+                        </button>
+                        <button id="next-btn" class="gradient-bg text-white font-medium py-2 px-4 rounded-lg shadow hover:shadow-lg transition-all duration-300 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+                            Selanjutnya
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Name Input Screen -->
+            <div id="name-input-screen" class="hidden fade-in max-w-3xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 card">
+                    <div class="flex justify-center mb-6">
+                        <div class="gradient-bg rounded-full p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4">Hampir Selesai!</h2>
+                    <p class="text-gray-600 text-center mb-6">Masukkan nama Anda untuk melihat hasil dan mengunduh laporan PDF.</p>
+                    
+                    <div class="mb-6">
+                        <label for="user-name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="user-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300" placeholder="Masukkan nama Anda">
+                    </div>
+                    
+                    <div class="mt-8 flex justify-center">
+                        <button id="view-results-btn" class="gradient-bg text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center">
+                            <span>Lihat Hasil</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" class="hidden fade-in max-w-4xl mx-auto">
+                <div id="results-content" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 card">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Hasil Tes Kesehatan Mental</h2>
+                            <p class="text-gray-600" id="result-date">Tanggal: </p>
+                        </div>
+                        <div class="gradient-bg rounded-full p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <h3 class="font-medium text-gray-800" id="result-name">Nama: </h3>
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p class="text-gray-600" id="result-time">Waktu: </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Ringkasan Hasil</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-medium text-indigo-800 mb-2">Skor PHQ-9 (Depresi)</h4>
+                                <div class="flex items-center">
+                                    <div id="phq9-score-display" class="text-2xl font-bold text-indigo-600 mr-2">-</div>
+                                    <div id="phq9-category" class="text-sm px-2 py-1 rounded-full bg-green-100 text-green-800">-</div>
+                                </div>
+                                <p id="phq9-interpretation" class="text-sm text-gray-600 mt-2">-</p>
+                            </div>
+                            
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-medium text-indigo-800 mb-2">Skor GAD-7 (Kecemasan)</h4>
+                                <div class="flex items-center">
+                                    <div id="gad7-score-display" class="text-2xl font-bold text-indigo-600 mr-2">-</div>
+                                    <div id="gad7-category" class="text-sm px-2 py-1 rounded-full bg-green-100 text-green-800">-</div>
+                                </div>
+                                <p id="gad7-interpretation" class="text-sm text-gray-600 mt-2">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Detail Hasil</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Energi & Motivasi</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                                    <div id="energy-progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <p id="energy-interpretation" class="text-sm text-gray-600">-</p>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Konsentrasi</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                                    <div id="concentration-progress" class="bg-purple-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <p id="concentration-interpretation" class="text-sm text-gray-600">-</p>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Relasi Sosial</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                                    <div id="social-progress" class="bg-pink-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <p id="social-interpretation" class="text-sm text-gray-600">-</p>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Makna Hidup</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                                    <div id="meaning-progress" class="bg-yellow-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <p id="meaning-interpretation" class="text-sm text-gray-600">-</p>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Burnout</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                                    <div id="burnout-progress" class="bg-red-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <p id="burnout-interpretation" class="text-sm text-gray-600">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Refleksi & Rekomendasi</h3>
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-5 rounded-lg">
+                            <p id="reflection-text" class="text-gray-700">-</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 rounded-r-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    Hasil ini bukan pengganti diagnosis profesional. Jika Anda mengalami gejala yang mengganggu, konsultasikan dengan profesional kesehatan mental.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-center space-y-3 md:space-y-0 md:space-x-4">
+                        <button id="download-pdf-btn" class="gradient-bg text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Unduh Hasil (PDF)
+                        </button>
+                        <button id="restart-btn" class="bg-white text-indigo-600 border border-indigo-200 font-medium py-3 px-6 rounded-lg hover:bg-indigo-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Mulai Ulang Tes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-6">
+            <div class="container mx-auto px-4 text-center">
+                <p class="text-sm text-gray-400">© 2023 Mental Health Check. Dibuat untuk membantu kesehatan mental Anda.</p>
+                <p class="text-xs text-gray-500 mt-2">Tes ini menggunakan instrumen PHQ-9 dan GAD-7 yang tervalidasi secara klinis.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data
+            const questions = [
+                // PHQ-9 Questions (Depression)
+                { id: 1, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa kurang berminat atau bergairah dalam melakukan apapun?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 2, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa murung, sedih, atau putus asa?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 3, text: "Selama 2 minggu terakhir, seberapa sering Anda mengalami kesulitan untuk tidur atau mempertahankan tidur, atau terlalu banyak tidur?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 4, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa lelah atau kurang bertenaga?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 5, text: "Selama 2 minggu terakhir, seberapa sering Anda mengalami nafsu makan yang buruk atau makan berlebihan?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 6, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa tidak menyukai diri sendiri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 7, text: "Selama 2 minggu terakhir, seberapa sering Anda mengalami kesulitan berkonsentrasi pada sesuatu, seperti membaca koran atau menonton televisi?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 8, text: "Selama 2 minggu terakhir, seberapa sering Anda bergerak atau berbicara sangat lambat sehingga orang lain dapat memperhatikannya? Atau sebaliknya — merasa gelisah atau tidak bisa diam sehingga Anda bergerak lebih banyak dari biasanya?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                { id: 9, text: "Selama 2 minggu terakhir, seberapa sering Anda memiliki pikiran bahwa Anda lebih baik mati atau menyakiti diri sendiri dengan cara tertentu?", category: "Mood (PHQ-9)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "phq9" },
+                
+                // GAD-7 Questions (Anxiety)
+                { id: 10, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa gugup, cemas, atau tegang?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 11, text: "Selama 2 minggu terakhir, seberapa sering Anda tidak mampu menghentikan atau mengendalikan kekhawatiran?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 12, text: "Selama 2 minggu terakhir, seberapa sering Anda terlalu khawatir tentang berbagai hal?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 13, text: "Selama 2 minggu terakhir, seberapa sering Anda mengalami kesulitan untuk bersantai?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 14, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa sangat gelisah sehingga sulit untuk duduk diam?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 15, text: "Selama 2 minggu terakhir, seberapa sering Anda mudah merasa kesal atau mudah marah?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                { id: 16, text: "Selama 2 minggu terakhir, seberapa sering Anda merasa takut seolah-olah sesuatu yang mengerikan mungkin terjadi?", category: "Kecemasan (GAD-7)", options: ["Tidak pernah", "Beberapa hari", "Lebih dari separuh waktu", "Hampir setiap hari"], scores: [0, 1, 2, 3], type: "gad7" },
+                
+                // Energy/Motivation Questions
+                { id: 17, text: "Saya merasa memiliki energi yang cukup untuk menjalani aktivitas sehari-hari.", category: "Energi/Motivasi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [4, 3, 2, 1, 0], type: "energy", reverse: true },
+                { id: 18, text: "Saya kesulitan memulai tugas-tugas yang perlu saya lakukan.", category: "Energi/Motivasi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "energy" },
+                
+                // Concentration Questions
+                { id: 19, text: "Saya dapat fokus pada tugas yang sedang saya kerjakan tanpa mudah teralihkan.", category: "Konsentrasi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [4, 3, 2, 1, 0], type: "concentration", reverse: true },
+                { id: 20, text: "Pikiran saya sering melantur saat mencoba berkonsentrasi.", category: "Konsentrasi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "concentration" },
+                
+                // Social Relations Questions
+                { id: 21, text: "Saya merasa terhubung dengan orang-orang di sekitar saya.", category: "Relasi Sosial", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [4, 3, 2, 1, 0], type: "social", reverse: true },
+                { id: 22, text: "Saya merasa kesepian meskipun saya bersama orang lain.", category: "Relasi Sosial", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "social" },
+                
+                // Meaning of Life Questions
+                { id: 23, text: "Saya merasa hidup saya memiliki tujuan dan makna yang jelas.", category: "Makna Hidup", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [4, 3, 2, 1, 0], type: "meaning", reverse: true },
+                { id: 24, text: "Saya sering bertanya-tanya apa gunanya semua yang saya lakukan.", category: "Makna Hidup", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "meaning" },
+                
+                // Burnout Questions
+                { id: 25, text: "Saya merasa secara emosional terkuras oleh pekerjaan atau aktivitas sehari-hari saya.", category: "Burnout", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "burnout" },
+                { id: 26, text: "Saya merasa lelah saat bangun di pagi hari dan harus menghadapi hari lagi.", category: "Burnout", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "burnout" },
+                
+                // Lie Scale Questions
+                { id: 27, text: "Saya tidak pernah merasa kesal ketika orang lain meminta bantuan.", category: "Konsistensi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "lie" },
+                { id: 28, text: "Saya selalu menepati janji, tidak peduli betapa sulitnya.", category: "Konsistensi", options: ["Sangat tidak setuju", "Tidak setuju", "Netral", "Setuju", "Sangat setuju"], scores: [0, 1, 2, 3, 4], type: "lie" }
+            ];
+            
+            // Variables
+            let currentQuestionIndex = 0;
+            let answers = new Array(questions.length).fill(null);
+            let userName = "";
+            
+            // DOM Elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const nameInputScreen = document.getElementById('name-input-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const startBtn = document.getElementById('start-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const questionNumber = document.getElementById('question-number');
+            const questionCategory = document.getElementById('question-category');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const questionProgress = document.getElementById('question-progress');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressContainer = document.getElementById('progress-container');
+            const userNameInput = document.getElementById('user-name');
+            const viewResultsBtn = document.getElementById('view-results-btn');
+            const downloadPdfBtn = document.getElementById('download-pdf-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            // Event Listeners
+            startBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextButtonClick);
+            viewResultsBtn.addEventListener('click', showResults);
+            downloadPdfBtn.addEventListener('click', downloadPDF);
+            restartBtn.addEventListener('click', restartQuiz);
+            
+            // Functions
+            function startQuiz() {
+                welcomeScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                progressContainer.classList.remove('hidden');
+                showQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+            
+            function showQuestion(index) {
+                const question = questions[index];
+                questionNumber.textContent = `Pertanyaan ${index + 1} dari ${questions.length}`;
+                questionCategory.textContent = question.category;
+                questionText.textContent = question.text;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Create option buttons
+                question.options.forEach((option, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = 'option-btn w-full text-left py-3 px-4 rounded-lg border border-gray-300 hover:border-indigo-500 transition-colors duration-300';
+                    optionBtn.textContent = option;
+                    
+                    if (answers[index] === i) {
+                        optionBtn.classList.add('selected');
+                    }
+                    
+                    optionBtn.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.option-btn').forEach(btn => {
+                            btn.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionBtn.classList.add('selected');
+                        
+                        // Save answer
+                        answers[index] = i;
+                        
+                        // Enable next button
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionBtn);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = answers[index] === null;
+                
+                // Update progress
+                updateProgress();
+            }
+            
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            }
+            
+            function handleNextButtonClick() {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    showNameInputScreen();
+                }
+            }
+            
+            function showNameInputScreen() {
+                quizScreen.classList.add('hidden');
+                nameInputScreen.classList.remove('hidden');
+            }
+            
+            function updateProgress() {
+                const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+                questionProgress.style.width = `${progress}%`;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+            }
+            
+            function calculateScores() {
+                let scores = {
+                    phq9: 0,
+                    gad7: 0,
+                    energy: 0,
+                    concentration: 0,
+                    social: 0,
+                    meaning: 0,
+                    burnout: 0,
+                    lie: 0
+                };
+                
+                let maxScores = {
+                    phq9: 27, // 9 questions, max 3 points each
+                    gad7: 21, // 7 questions, max 3 points each
+                    energy: 8, // 2 questions, max 4 points each
+                    concentration: 8, // 2 questions, max 4 points each
+                    social: 8, // 2 questions, max 4 points each
+                    meaning: 8, // 2 questions, max 4 points each
+                    burnout: 8, // 2 questions, max 4 points each
+                    lie: 8 // 2 questions, max 4 points each
+                };
+                
+                questions.forEach((question, index) => {
+                    if (answers[index] !== null) {
+                        const score = question.scores[answers[index]];
+                        scores[question.type] += score;
+                    }
+                });
+                
+                return {
+                    raw: scores,
+                    percentage: {
+                        phq9: (scores.phq9 / maxScores.phq9) * 100,
+                        gad7: (scores.gad7 / maxScores.gad7) * 100,
+                        energy: (scores.energy / maxScores.energy) * 100,
+                        concentration: (scores.concentration / maxScores.concentration) * 100,
+                        social: (scores.social / maxScores.social) * 100,
+                        meaning: (scores.meaning / maxScores.meaning) * 100,
+                        burnout: (scores.burnout / maxScores.burnout) * 100,
+                        lie: (scores.lie / maxScores.lie) * 100
+                    }
+                };
+            }
+            
+            function getPhq9Category(score) {
+                if (score >= 0 && score <= 4) return { text: "Minimal", class: "bg-green-100 text-green-800" };
+                if (score >= 5 && score <= 9) return { text: "Ringan", class: "bg-yellow-100 text-yellow-800" };
+                if (score >= 10 && score <= 14) return { text: "Sedang", class: "bg-orange-100 text-orange-800" };
+                if (score >= 15 && score <= 19) return { text: "Cukup Berat", class: "bg-red-100 text-red-800" };
+                return { text: "Berat", class: "bg-red-100 text-red-800" };
+            }
+            
+            function getGad7Category(score) {
+                if (score >= 0 && score <= 4) return { text: "Minimal", class: "bg-green-100 text-green-800" };
+                if (score >= 5 && score <= 9) return { text: "Ringan", class: "bg-yellow-100 text-yellow-800" };
+                if (score >= 10 && score <= 14) return { text: "Sedang", class: "bg-orange-100 text-orange-800" };
+                return { text: "Berat", class: "bg-red-100 text-red-800" };
+            }
+            
+            function getPhq9Interpretation(score) {
+                if (score >= 0 && score <= 4) return "Gejala depresi minimal yang mungkin tidak memerlukan penanganan.";
+                if (score >= 5 && score <= 9) return "Gejala depresi ringan. Pemantauan dan dukungan mungkin diperlukan.";
+                if (score >= 10 && score <= 14) return "Gejala depresi sedang. Konsultasi dengan profesional kesehatan mental disarankan.";
+                if (score >= 15 && score <= 19) return "Gejala depresi cukup berat. Penanganan profesional sangat disarankan.";
+                return "Gejala depresi berat. Segera konsultasikan dengan profesional kesehatan mental.";
+            }
+            
+            function getGad7Interpretation(score) {
+                if (score >= 0 && score <= 4) return "Gejala kecemasan minimal yang mungkin tidak memerlukan penanganan.";
+                if (score >= 5 && score <= 9) return "Gejala kecemasan ringan. Pemantauan dan dukungan mungkin diperlukan.";
+                if (score >= 10 && score <= 14) return "Gejala kecemasan sedang. Konsultasi dengan profesional kesehatan mental disarankan.";
+                return "Gejala kecemasan berat. Segera konsultasikan dengan profesional kesehatan mental.";
+            }
+            
+            function getEnergyInterpretation(percentage) {
+                if (percentage <= 25) return "Energi dan motivasi Anda sangat baik. Anda tampaknya memiliki semangat yang cukup untuk aktivitas sehari-hari.";
+                if (percentage <= 50) return "Energi dan motivasi Anda cukup baik, meskipun terkadang Anda mungkin merasa kurang bersemangat.";
+                if (percentage <= 75) return "Anda mungkin sering merasa kekurangan energi dan motivasi, yang dapat memengaruhi produktivitas sehari-hari.";
+                return "Energi dan motivasi Anda sangat rendah. Ini dapat sangat memengaruhi kemampuan Anda untuk menjalankan aktivitas sehari-hari.";
+            }
+            
+            function getConcentrationInterpretation(percentage) {
+                if (percentage <= 25) return "Kemampuan konsentrasi Anda sangat baik. Anda dapat fokus pada tugas dengan efektif.";
+                if (percentage <= 50) return "Kemampuan konsentrasi Anda cukup baik, meskipun terkadang Anda mungkin mengalami kesulitan fokus.";
+                if (percentage <= 75) return "Anda sering mengalami kesulitan berkonsentrasi, yang dapat memengaruhi produktivitas dan kinerja.";
+                return "Anda mengalami kesulitan konsentrasi yang signifikan, yang dapat sangat mengganggu aktivitas sehari-hari.";
+            }
+            
+            function getSocialInterpretation(percentage) {
+                if (percentage <= 25) return "Relasi sosial Anda sangat baik. Anda merasa terhubung dengan orang lain dan jarang merasa kesepian.";
+                if (percentage <= 50) return "Relasi sosial Anda cukup baik, meskipun terkadang Anda mungkin merasa kurang terhubung dengan orang lain.";
+                if (percentage <= 75) return "Anda sering merasa kesulitan dalam relasi sosial dan mungkin sering merasa kesepian meskipun bersama orang lain.";
+                return "Anda mengalami kesulitan signifikan dalam relasi sosial dan sering merasa terisolasi atau kesepian.";
+            }
+            
+            function getMeaningInterpretation(percentage) {
+                if (percentage <= 25) return "Anda memiliki rasa tujuan dan makna hidup yang kuat, yang memberikan arah dan motivasi.";
+                if (percentage <= 50) return "Anda memiliki cukup rasa tujuan dan makna dalam hidup, meskipun terkadang mungkin merasa kurang jelas.";
+                if (percentage <= 75) return "Anda sering merasa kurang memiliki tujuan dan makna dalam hidup, yang dapat memengaruhi motivasi dan kesejahteraan.";
+                return "Anda mengalami krisis makna yang signifikan, merasa hidup Anda kurang memiliki tujuan atau arti.";
+            }
+            
+            function getBurnoutInterpretation(percentage) {
+                if (percentage <= 25) return "Risiko burnout Anda rendah. Anda tampaknya memiliki keseimbangan yang baik dalam aktivitas sehari-hari.";
+                if (percentage <= 50) return "Risiko burnout Anda sedang. Perhatikan tanda-tanda kelelahan dan jaga keseimbangan aktivitas.";
+                if (percentage <= 75) return "Anda menunjukkan tanda-tanda burnout yang perlu diperhatikan. Pertimbangkan untuk mengurangi stres dan meningkatkan istirahat.";
+                return "Anda menunjukkan tanda-tanda burnout yang signifikan. Sangat disarankan untuk mencari cara mengurangi beban dan meningkatkan pemulihan.";
+            }
+            
+            function getLieScaleWarning(percentage) {
+                if (percentage >= 75) {
+                    return "Catatan: Berdasarkan pola jawaban, hasil tes ini mungkin tidak sepenuhnya mencerminkan kondisi sebenarnya. Beberapa jawaban mungkin terlalu idealistis.";
+                }
+                return "";
+            }
+            
+            function generateReflection(scores) {
+                let reflection = "";
+                
+                // Overall mental health status
+                if (scores.raw.phq9 <= 4 && scores.raw.gad7 <= 4) {
+                    reflection += "Secara keseluruhan, kesehatan mental Anda tampak dalam kondisi baik. ";
+                } else if (scores.raw.phq9 >= 15 || scores.raw.gad7 >= 15) {
+                    reflection += "Hasil tes menunjukkan adanya tantangan kesehatan mental yang signifikan yang mungkin memerlukan perhatian profesional. ";
+                } else {
+                    reflection += "Hasil tes menunjukkan beberapa area yang mungkin perlu perhatian untuk meningkatkan kesehatan mental Anda. ";
+                }
+                
+                // Specific areas of concern
+                let concerns = [];
+                if (scores.raw.phq9 >= 10) concerns.push("gejala depresi");
+                if (scores.raw.gad7 >= 10) concerns.push("kecemasan");
+                if (scores.percentage.energy >= 60) concerns.push("energi dan motivasi rendah");
+                if (scores.percentage.concentration >= 60) concerns.push("kesulitan konsentrasi");
+                if (scores.percentage.social >= 60) concerns.push("tantangan dalam relasi sosial");
+                if (scores.percentage.meaning >= 60) concerns.push("kurangnya rasa makna hidup");
+                if (scores.percentage.burnout >= 60) concerns.push("tanda-tanda burnout");
+                
+                if (concerns.length > 0) {
+                    reflection += "Area yang mungkin perlu perhatian khusus meliputi: " + concerns.join(", ") + ". ";
+                }
+                
+                // Recommendations
+                reflection += "\n\nBeberapa rekomendasi yang mungkin membantu:\n\n";
+                
+                if (scores.raw.phq9 >= 5 || scores.raw.gad7 >= 5) {
+                    reflection += "• Pertimbangkan untuk berkonsultasi dengan profesional kesehatan mental untuk evaluasi lebih lanjut.\n";
+                }
+                
+                if (scores.percentage.energy >= 50) {
+                    reflection += "• Perhatikan pola tidur, nutrisi, dan aktivitas fisik untuk meningkatkan energi.\n";
+                }
+                
+                if (scores.percentage.concentration >= 50) {
+                    reflection += "• Praktikkan teknik mindfulness atau meditasi untuk meningkatkan konsentrasi.\n";
+                }
+                
+                if (scores.percentage.social >= 50) {
+                    reflection += "• Upayakan untuk memperkuat koneksi sosial dan dukungan dari orang terdekat.\n";
+                }
+                
+                if (scores.percentage.meaning >= 50) {
+                    reflection += "• Eksplorasi aktivitas yang memberikan rasa tujuan dan makna dalam hidup Anda.\n";
+                }
+                
+                if (scores.percentage.burnout >= 50) {
+                    reflection += "• Terapkan batasan yang sehat dalam pekerjaan dan kehidupan pribadi untuk mencegah burnout.\n";
+                }
+                
+                reflection += "• Praktikkan perawatan diri secara teratur, termasuk aktivitas yang Anda nikmati dan teknik relaksasi.\n";
+                
+                // Add lie scale warning if needed
+                const lieWarning = getLieScaleWarning(scores.percentage.lie);
+                if (lieWarning) {
+                    reflection += "\n" + lieWarning;
+                }
+                
+                return reflection;
+            }
+            
+            function showResults() {
+                userName = userNameInput.value.trim();
+                if (!userName) {
+                    alert("Silakan masukkan nama Anda untuk melihat hasil.");
+                    return;
+                }
+                
+                nameInputScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const now = new Date();
+                const dateString = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                const timeString = now.toLocaleTimeString('id-ID');
+                
+                // Update result elements
+                document.getElementById('result-date').textContent = `Tanggal: ${dateString}`;
+                document.getElementById('result-name').textContent = `Nama: ${userName}`;
+                document.getElementById('result-time').textContent = `Waktu: ${timeString}`;
+                
+                // PHQ-9 results
+                document.getElementById('phq9-score-display').textContent = scores.raw.phq9;
+                const phq9Category = getPhq9Category(scores.raw.phq9);
+                document.getElementById('phq9-category').textContent = phq9Category.text;
+                document.getElementById('phq9-category').className = `text-sm px-2 py-1 rounded-full ${phq9Category.class}`;
+                document.getElementById('phq9-interpretation').textContent = getPhq9Interpretation(scores.raw.phq9);
+                
+                // GAD-7 results
+                document.getElementById('gad7-score-display').textContent = scores.raw.gad7;
+                const gad7Category = getGad7Category(scores.raw.gad7);
+                document.getElementById('gad7-category').textContent = gad7Category.text;
+                document.getElementById('gad7-category').className = `text-sm px-2 py-1 rounded-full ${gad7Category.class}`;
+                document.getElementById('gad7-interpretation').textContent = getGad7Interpretation(scores.raw.gad7);
+                
+                // Other metrics
+                document.getElementById('energy-progress').style.width = `${scores.percentage.energy}%`;
+                document.getElementById('energy-interpretation').textContent = getEnergyInterpretation(scores.percentage.energy);
+                
+                document.getElementById('concentration-progress').style.width = `${scores.percentage.concentration}%`;
+                document.getElementById('concentration-interpretation').textContent = getConcentrationInterpretation(scores.percentage.concentration);
+                
+                document.getElementById('social-progress').style.width = `${scores.percentage.social}%`;
+                document.getElementById('social-interpretation').textContent = getSocialInterpretation(scores.percentage.social);
+                
+                document.getElementById('meaning-progress').style.width = `${scores.percentage.meaning}%`;
+                document.getElementById('meaning-interpretation').textContent = getMeaningInterpretation(scores.percentage.meaning);
+                
+                document.getElementById('burnout-progress').style.width = `${scores.percentage.burnout}%`;
+                document.getElementById('burnout-interpretation').textContent = getBurnoutInterpretation(scores.percentage.burnout);
+                
+                // Reflection
+                document.getElementById('reflection-text').textContent = generateReflection(scores);
+            }
+            
+            function downloadPDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                const content = document.getElementById('results-content');
+                
+                html2canvas(content).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = 190;
+                    const pageHeight = 290;
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 10;
+                    
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        doc.addPage();
+                        doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                    
+                    doc.save(`Hasil_Tes_Kesehatan_Mental_${userName}.pdf`);
+                });
+            }
+            
+            function restartQuiz() {
+                // Reset variables
+                currentQuestionIndex = 0;
+                answers = new Array(questions.length).fill(null);
+                userName = "";
+                
+                // Reset UI
+                resultsScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+                userNameInput.value = "";
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966b37dfb50b465b',t:'MTc1Mzc3NzQ0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

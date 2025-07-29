@@ -1,1 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Ketahanan Psikologis - MindZep</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e73df;
+            --secondary: #858796;
+            --success: #1cc88a;
+            --info: #36b9cc;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8ecfe 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .test-header {
+            background: linear-gradient(120deg, var(--primary) 0%, #2a4cb3 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
 
+.intro-container {
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.intro-content {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+.disclaimer {
+    background: #fff8e6;
+    padding: 15px;
+    border-left: 4px solid #ffc107;
+}
+        
+        .progress-container {
+            padding: 1.5rem 2rem;
+            background-color: var(--light);
+        }
+        
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+        }
+        
+        .question-container {
+            padding: 2rem;
+            min-height: 300px;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .option-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .option-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .option-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option-item.selected {
+            border-color: var(--primary);
+            background-color: rgba(78, 115, 223, 0.1);
+        }
+        
+        .option-item.selected .option-label {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .option-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .option-label {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-align: center;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem 2rem;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-prev {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .btn-next {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-finish {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .result-container {
+            display: none;
+            padding: 2rem;
+        }
+        
+        .dimension-card {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+        
+        .dimension-header {
+            font-weight: 700;
+            padding: 15px 20px;
+            color: white;
+        }
+        
+        .dimension-body {
+            padding: 20px;
+            background: white;
+        }
+        
+        .score-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: #e9ecef;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .score-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .interpretation {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fc;
+        }
+        
+        .lie-alert {
+            background-color: #fce4d6;
+            border-left: 4px solid var(--danger);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .dimension-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dimension-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .dimension-score {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .lie-scale {
+            background-color: #fff8e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px dashed #ffc107;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .level-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .level-item {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 0 5px;
+            background: var(--light);
+        }
+        
+        .level-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+        }
+        
+        .level-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .level-range {
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+/* Pastikan tidak ada conflicting styles */
+#intro-section, #question-section {
+    transition: all 0.3s ease;
+}
+
+/* Untuk animasi lebih smooth */
+.test-container {
+    position: relative;
+    min-height: 500px;
+}
+
+/* Cetak/PDF */
+@media print {
+    body { 
+        -webkit-print-color-adjust: exact;
+        background: white !important;
+    }
+    .test-container { 
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+}
+
+/* Fix layout untuk PDF */
+@media (max-width: 768px) {
+    #result-section { 
+        min-width: 800px; /* Paksa lebar desktop saat konversi */
+    }
+}
+
+.dimensions-list {
+    background: #f8f9fc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.dimension-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.dimension-item:last-child {
+    border-bottom: none;
+}
+
+.dimension-item i {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 25px;
+    text-align: center;
+}
+
+.disclaimer {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+}
+
+   @media (max-width: 576px) {
+       .dimension-item {
+           flex-direction: column;
+           align-items: flex-start;
+       }
+   }
+
+#intro-section, #question-section {
+    transition: opacity 0.3s ease;
+    opacity: 1; /* Pastikan default visible */
+}
+
+#question-section {
+    opacity: 0; /* Awalnya transparan */
+    display: none; /* Awalnya tersembunyi */
+}
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-brain me-2"></i>Kuis Ketahanan Psikologis</h1>
+            <h1 style="font-size: 2.5rem;"><strong>- Resilience Test -</strong></h1>
+            <p class="mb-0">Ukur kemampuan Anda dalam menghadapi tantangan dan bangkit dari kesulitan</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="d-flex justify-content-between mb-2">
+                <span id="progress-text">Pertanyaan 1 dari 25</span>
+                <span id="progress-percent">4%</span>
+            </div>
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar bg-primary" role="progressbar" style="width: 4%" aria-valuenow="4" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+        <div id="intro-section" class="intro-container">
+    <h2>Petunjuk Tes Ketahanan Psikologis</h2>
+    <div class="intro-content">
+        <!-- Penjelasan singkat -->
+        <h3><i class="fas fa-layer-group"></i> Tes ini mengukur 6 dimensi ketahanan psikologis...</h3>
+        <div class="dimensions-list">
+            <div class="dimension-item">
+                <i class="fas fa-sun text-warning" aria-hidden="true"></i>
+                <span><strong>Optimisme</strong>: Keyakinan positif terhadap masa depan</span>
+            </div>
+            <div class="dimension-item">
+                <i class="fas fa-fist-raised text-primary" aria-hidden="true"></i>
+                <span><strong>Efikasi Diri</strong>: Percaya pada kemampuan diri</span>
+            </div>
+            <div class="dimension-item">
+                <i class="fas fa-random text-success" aria-hidden="true"></i>
+                <span><strong>Fleksibilitas</strong>: Kemampuan beradaptasi dengan perubahan</span>
+            </div>
+            <div class="dimension-item">
+                <i class="fas fa-heartbeat text-danger" aria-hidden="true"></i>
+                <span><strong>Regulasi Emosi</strong>: Mengelola emosi secara sehat</span>
+            </div>
+            <div class="dimension-item">
+                <i class="fas fa-pray text-info" aria-hidden="true"></i>
+                <span><strong>Spiritualitas</strong>: Kekuatan dari keyakinan/agama</span>
+            </div>
+            <div class="dimension-item">
+                <i class="fas fa-users text-secondary" aria-hidden="true"></i>
+                <span><strong>Koneksi Sosial</strong>: Dukungan dari lingkungan sosial</span>
+            </div>
+        </div>
+        
+        <!-- Tata Cara -->
+        <h3><i class="fas fa-list-ol"></i> Tata Cara:</h3>
+        <ol>
+            <li>Baca setiap pernyataan dengan cermat.</li>
+            <li>Pilih jawaban sesuai skala 1-5.</li>
+        </ol>
+
+        <!-- Pedoman Skoring -->
+        <h3><i class="fas fa-calculator"></i> Metode Skoring:</h3>
+        <ul>
+            <li>Skala Likert 1-5 (Sangat Tidak Setuju - Sangat Setuju)</li>
+            <li>Pertanyaan <em>reverse</em> dihitung dengan inversi skor (5=1, 4=2, dst.)</li>
+            <li>Skor akhir = rata-rata per dimensi</li>
+        </ul>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <h3><i class="fas fa-exclamation-triangle"></i> Disclaimer:</h3>
+            <p>Hasil tes ini bersifat indikatif dan tidak menggantikan diagnosis profesional...</p>
+        </div>
+    </div>
+    <button id="start-test-btn" class="btn btn-primary">Mulai Tes</button>
+</div>
+        
+        <div id="question-section" style="display: none;">
+            <div class="question-container">
+                <div id="question-text" class="question-text">
+                    <!-- Pertanyaan akan dimuat di sini -->
+                </div>
+                
+                <div class="option-container" id="options-container">
+                    <!-- Opsi jawaban akan dimuat di sini -->
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button id="prev-btn" class="btn btn-prev" disabled>
+                    <i class="fas fa-arrow-left me-2"></i>Sebelumnya
+                </button>
+                <button id="next-btn" class="btn btn-next">
+                    Selanjutnya<i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="result-section" class="result-container">
+            <h2 class="text-center mb-4">Hasil Tes Ketahanan Psikologis</h2>
+            
+            <div id="lie-scale-container" class="lie-scale">
+                <h4><i class="fas fa-info-circle me-2"></i>Skala Kejujuran</h4>
+                <p id="lie-scale-text">Skor kejujuran Anda: <strong>3.2</strong> (Skala 1-5)</p>
+                <div class="score-bar">
+                    <div id="lie-scale-bar" class="score-fill bg-info" style="width: 64%"></div>
+                </div>
+                <p id="lie-scale-message" class="mb-0">Skor kejujuran Anda berada dalam rentang normal. Hasil tes ini dapat dipertimbangkan valid.</p>
+            </div>
+            
+            <div class="summary-card">
+                <h4 class="text-center mb-4">Ringkasan Hasil Tes</h4>
+                <div class="level-indicator">
+                    <div class="level-item" id="level-low">
+                        <div class="level-title">Rendah</div>
+                        <div class="level-range">1.0 - 2.4</div>
+                    </div>
+                    <div class="level-item" id="level-medium">
+                        <div class="level-title">Sedang</div>
+                        <div class="level-range">2.5 - 3.4</div>
+                    </div>
+                    <div class="level-item active" id="level-high">
+                        <div class="level-title">Tinggi</div>
+                        <div class="level-range">3.5 - 5.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="dimension-results">
+                <!-- Hasil dimensi akan dimuat di sini -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <button id="restart-btn" class="btn btn-primary">
+                    <i class="fas fa-redo me-2"></i>Ulangi Tes
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Dikembangkan oleh MindZep &copy; 2023 | Tes psikometri valid dan terstandarisasi</p>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+    <script>
+        // Data pertanyaan dari JSON
+        const questions = [
+          {
+            "id": 1,
+            "type": "core",
+            "dimension": "optimism",
+            "question": "Aku percaya bahwa masa sulit ini akan berlalu dan membawa pelajaran berharga.",
+            "reverse": false
+          },
+          {
+            "id": 2,
+            "type": "core",
+            "dimension": "self_efficacy",
+            "question": "Aku merasa mampu mengatasi tantangan besar dalam hidupku.",
+            "reverse": false
+          },
+          {
+            "id": 3,
+            "type": "core",
+            "dimension": "flexibility",
+            "question": "Aku bisa menyesuaikan diri ketika rencana hidup berubah mendadak.",
+            "reverse": false
+          },
+          {
+            "id": 4,
+            "type": "core",
+            "dimension": "emotional_reg",
+            "question": "Aku tetap bisa menjaga ketenangan saat berada dalam tekanan.",
+            "reverse": false
+          },
+          {
+            "id": 5,
+            "type": "core",
+            "dimension": "spirituality",
+            "question": "Imanku membantuku bertahan di tengah ujian hidup.",
+            "reverse": false
+          },
+          {
+            "id": 6,
+            "type": "core",
+            "dimension": "connection",
+            "question": "Aku merasa dikelilingi oleh orang-orang yang mendukungku.",
+            "reverse": false
+          },
+          {
+            "id": 7,
+            "type": "core",
+            "dimension": "optimism",
+            "question": "Aku tetap berharap meski belum melihat hasil dari usahaku.",
+            "reverse": false
+          },
+          {
+            "id": 8,
+            "type": "core",
+            "dimension": "self_efficacy",
+            "question": "Aku yakin bisa bangkit lagi walau pernah gagal sebelumnya.",
+            "reverse": false
+          },
+          {
+            "id": 9,
+            "type": "core",
+            "dimension": "flexibility",
+            "question": "Aku mampu mencari jalan lain ketika rencana awal tidak berhasil.",
+            "reverse": false
+          },
+          {
+            "id": 10,
+            "type": "core",
+            "dimension": "emotional_reg",
+            "question": "Aku bisa mengelola emosiku tanpa meledak saat kecewa.",
+            "reverse": false
+          },
+          {
+            "id": 11,
+            "type": "core",
+            "dimension": "spirituality",
+            "question": "Doa dan dzikir memberiku ketenangan saat dilanda masalah.",
+            "reverse": false
+          },
+          {
+            "id": 12,
+            "type": "core",
+            "dimension": "connection",
+            "question": "Aku punya tempat bercerita ketika sedang tidak baik-baik saja.",
+            "reverse": false
+          },
+          {
+            "id": 13,
+            "type": "core",
+            "dimension": "optimism",
+            "question": "Aku percaya bahwa selalu ada kebaikan di balik kesulitan.",
+            "reverse": false
+          },
+          {
+            "id": 14,
+            "type": "core",
+            "dimension": "emotional_reg",
+            "question": "Aku bisa memilih untuk bersikap tenang saat hal tak berjalan sesuai harapan.",
+            "reverse": false
+          },
+          {
+            "id": 15,
+            "type": "core",
+            "dimension": "flexibility",
+            "question": "Aku terbiasa belajar dari kegagalan dan mencoba pendekatan baru.",
+            "reverse": false
+          },
+          {
+            "id": 16,
+            "type": "reverse",
+            "dimension": "optimism",
+            "question": "Aku merasa hidupku akan selalu penuh kesulitan.",
+            "reverse": true
+          },
+          {
+            "id": 17,
+            "type": "reverse",
+            "dimension": "self_efficacy",
+            "question": "Aku merasa tidak punya kekuatan untuk menghadapi hidup ini.",
+            "reverse": true
+          },
+          {
+            "id": 18,
+            "type": "reverse",
+            "dimension": "emotional_reg",
+            "question": "Saat stres, aku langsung kehilangan kendali emosi.",
+            "reverse": true
+          },
+          {
+            "id": 19,
+            "type": "reverse",
+            "dimension": "connection",
+            "question": "Aku merasa sendirian dan tidak punya siapa-siapa yang bisa memahami.",
+            "reverse": true
+          },
+          {
+            "id": 20,
+            "type": "reverse",
+            "dimension": "flexibility",
+            "question": "Aku sulit beradaptasi ketika hidup berubah drastis.",
+            "reverse": true
+          },
+          {
+            "id": 21,
+            "type": "lie",
+            "dimension": "lie_scale",
+            "question": "Aku selalu tenang dan tidak pernah marah dalam situasi apapun.",
+            "reverse": true
+          },
+          {
+            "id": 22,
+            "type": "lie",
+            "dimension": "lie_scale",
+            "question": "Aku tidak pernah merasa sedih atau lelah secara emosional.",
+            "reverse": true
+          },
+          {
+            "id": 23,
+            "type": "lie",
+            "dimension": "lie_scale",
+            "question": "Aku selalu tahu jawaban terbaik untuk setiap masalah yang kuhadapi.",
+            "reverse": true
+          },
+          {
+            "id": 24,
+            "type": "lie",
+            "dimension": "lie_scale",
+            "question": "Aku tidak pernah melakukan kesalahan dalam mengambil keputusan penting.",
+            "reverse": true
+          },
+          {
+            "id": 25,
+            "type": "lie",
+            "dimension": "lie_scale",
+            "question": "Aku selalu yakin dan tak pernah ragu terhadap semua pilihan hidupku.",
+            "reverse": true
+          }
+        ];
+
+        // Data dimensi
+        const dimensions = {
+            "optimism": {
+                "name": "Optimisme",
+                "description": "Kemampuan untuk mempertahankan pandangan positif dan mengharapkan hasil yang baik di masa depan meskipun menghadapi kesulitan.",
+                "color": "#4e73df"
+            },
+            "self_efficacy": {
+                "name": "Efikasi Diri",
+                "description": "Keyakinan pada kemampuan diri sendiri untuk menghadapi tantangan dan menyelesaikan masalah secara efektif.",
+                "color": "#1cc88a"
+            },
+            "flexibility": {
+                "name": "Fleksibilitas",
+                "description": "Kemampuan untuk beradaptasi dengan perubahan dan menyesuaikan strategi ketika dihadapkan pada situasi baru atau tidak terduga.",
+                "color": "#36b9cc"
+            },
+            "emotional_reg": {
+                "name": "Regulasi Emosi",
+                "description": "Kemampuan untuk mengelola dan mengekspresikan emosi dengan cara yang sehat dan konstruktif, terutama dalam situasi stres.",
+                "color": "#f6c23e"
+            },
+            "spirituality": {
+                "name": "Spiritualitas",
+                "description": "Pemanfaatan keyakinan, nilai-nilai spiritual, atau praktik keagamaan sebagai sumber kekuatan dan ketenangan dalam menghadapi kesulitan.",
+                "color": "#e74a3b"
+            },
+            "connection": {
+                "name": "Koneksi Sosial",
+                "description": "Kemampuan untuk membangun dan mempertahankan hubungan yang mendukung dan saling menguntungkan dengan orang lain.",
+                "color": "#858796"
+            },
+            "lie_scale": {
+                "name": "Skala Kejujuran",
+                "description": "Pengukuran tingkat kejujuran dalam menjawab pertanyaan, yang membantu menentukan validitas hasil tes.",
+                "color": "#6f42c1"
+            }
+        };
+
+        // Variabel state
+        let currentQuestionIndex = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        const optionLabels = [
+            "Sangat Tidak Setuju",
+            "Tidak Setuju",
+            "Netral",
+            "Setuju",
+            "Sangat Setuju"
+        ];
+
+        // Elemen DOM
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressTextEl = document.getElementById('progress-text');
+        const progressPercentEl = document.getElementById('progress-percent');
+        const progressBarEl = document.getElementById('progress-bar');
+        const questionSectionEl = document.getElementById('question-section');
+        const resultSectionEl = document.getElementById('result-section');
+        const dimensionResultsEl = document.getElementById('dimension-results');
+        const lieScaleContainerEl = document.getElementById('lie-scale-container');
+        const lieScaleTextEl = document.getElementById('lie-scale-text');
+        const lieScaleMessageEl = document.getElementById('lie-scale-message');
+        const lieScaleBarEl = document.getElementById('lie-scale-bar');
+        const restartBtn = document.getElementById('restart-btn');
+
+function init() {
+    // Sembunyikan elemen yang tidak perlu
+    document.getElementById('question-section').style.display = 'none';
+    document.querySelector('.progress-container').style.display = 'none';
+    document.getElementById('result-section').style.display = 'none';
+    
+    // Tampilkan intro
+    document.getElementById('intro-section').style.display = 'block';
+    
+    // Pasang event listener untuk tombol mulai
+    document.getElementById('start-test-btn').addEventListener('click', function() {
+        // Animasi fade out intro
+        document.getElementById('intro-section').style.opacity = '0';
+        
+        setTimeout(() => {
+            // Sembunyikan intro dan tampilkan pertanyaan pertama
+            document.getElementById('intro-section').style.display = 'none';
+            document.getElementById('question-section').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            
+            // Animasi fade in pertanyaan
+            setTimeout(() => {
+                document.getElementById('question-section').style.opacity = '1';
+            }, 50);
+            
+            // Mulai tes
+            displayQuestion(0);
+            updateProgress();
+        }, 300); // Waktu transisi 300ms
+    });
+    
+    // Event listeners lainnya
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    restartBtn.addEventListener('click', restartTest);
+}
+
+      // Tampilkan pertanyaan
+        function displayQuestion(index) {
+            const question = questions[index];
+            questionTextEl.textContent = question.question;
+            
+            // Bersihkan kontainer opsi
+            optionsContainerEl.innerHTML = '';
+            
+            // Buat elemen opsi
+            for (let i = 0; i < 5; i++) {
+                const value = i + 1;
+                const isSelected = userAnswers[index] === value;
+                
+                const optionItem = document.createElement('div');
+                optionItem.classList.add('option-item');
+                if (isSelected) optionItem.classList.add('selected');
+                optionItem.dataset.value = value;
+                
+                optionItem.innerHTML = `
+                    <div class="option-value">${value}</div>
+                    <div class="option-label">${optionLabels[i]}</div>
+                `;
+                
+                optionItem.addEventListener('click', () => selectOption(value, index));
+                optionsContainerEl.appendChild(optionItem);
+            }
+            
+            // Update status tombol
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
+            nextBtn.classList.toggle('btn-finish', index === questions.length - 1);
+            nextBtn.classList.toggle('btn-next', index !== questions.length - 1);
+        }
+
+        // Pilih opsi jawaban
+        function selectOption(value, index) {
+            userAnswers[index] = value;
+            
+            // Update tampilan opsi
+            const options = optionsContainerEl.querySelectorAll('.option-item');
+            options.forEach((option, i) => {
+                if (parseInt(option.dataset.value) === value) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+            
+            // Aktifkan tombol next jika belum
+            if (nextBtn.disabled) {
+                nextBtn.disabled = false;
+            }
+        }
+
+        // Navigasi pertanyaan sebelumnya
+        function goToPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+        }
+
+        // Navigasi pertanyaan berikutnya
+        function goToNextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert('Silakan pilih jawaban terlebih dahulu');
+                return;
+            }
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+                updateProgress();
+            } else {
+                calculateResults();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressTextEl.textContent = `Pertanyaan ${currentQuestionIndex + 1} dari ${questions.length}`;
+            progressPercentEl.textContent = `${Math.round(progress)}%`;
+            progressBarEl.style.width = `${progress}%`;
+            progressBarEl.setAttribute('aria-valuenow', progress);
+        }
+
+        // Hitung hasil
+        function calculateResults() {
+            const dimensionScores = {};
+            const dimensionCounts = {};
+            
+            // Inisialisasi skor dimensi
+            for (const dim in dimensions) {
+                dimensionScores[dim] = 0;
+                dimensionCounts[dim] = 0;
+            }
+            
+            // Hitung skor untuk setiap jawaban
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                const answer = userAnswers[i];
+                const dimension = question.dimension;
+                
+                if (answer !== null) {
+                    let score = answer;
+                    
+                    // Reverse scoring jika diperlukan
+                    if (question.reverse) {
+                        score = 6 - answer;
+                    }
+                    
+                    dimensionScores[dimension] += score;
+                    dimensionCounts[dimension]++;
+                }
+            }
+            
+            // Hitung rata-rata skor per dimensi
+            const dimensionAverages = {};
+            for (const dim in dimensionScores) {
+                if (dimensionCounts[dim] > 0) {
+                    dimensionAverages[dim] = dimensionScores[dim] / dimensionCounts[dim];
+                } else {
+                    dimensionAverages[dim] = 0;
+                }
+            }
+            
+            // Tampilkan hasil
+            showResults(dimensionAverages);
+        }
+
+        // Tampilkan hasil
+        function showResults(dimensionAverages) {
+            // Sembunyikan bagian pertanyaan, tampilkan hasil
+            questionSectionEl.style.display = 'none';
+            resultSectionEl.style.display = 'block';
+            
+            // Tampilkan skor kejujuran
+            const lieScore = dimensionAverages.lie_scale;
+            lieScaleTextEl.innerHTML = `Skor kejujuran Anda: <strong>${lieScore.toFixed(1)}</strong> (Skala 1-5)`;
+            lieScaleBarEl.style.width = `${(lieScore / 5) * 100}%`;
+            
+            if (lieScore > 3.5) {
+                lieScaleMessageEl.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i> Skor kejujuran Anda cukup tinggi. Hasil tes mungkin kurang valid karena kecenderungan memberikan jawaban yang dianggap sosial diinginkan.`;
+                lieScaleContainerEl.style.backgroundColor = '#fce4d6';
+                lieScaleContainerEl.style.borderLeft = '4px solid #e74a3b';
+            } else if (lieScore > 2.8) {
+                lieScaleMessageEl.innerHTML = `<i class="fas fa-info-circle me-2"></i> Skor kejujuran Anda dalam rentang normal. Hasil tes ini dapat dipertimbangkan valid.`;
+            } else {
+                lieScaleMessageEl.innerHTML = `<i class="fas fa-check-circle me-2"></i> Skor kejujuran Anda sangat baik. Hasil tes ini menunjukkan tingkat kejujuran yang tinggi.`;
+            }
+            
+            // Tampilkan hasil untuk setiap dimensi (kecuali lie_scale)
+            dimensionResultsEl.innerHTML = '';
+            for (const dim in dimensionAverages) {
+                if (dim === 'lie_scale') continue;
+                
+                const score = dimensionAverages[dim];
+                const dimensionData = dimensions[dim];
+                const percentage = (score / 5) * 100;
+                
+                let interpretation = '';
+                let interpretationClass = '';
+                
+                if (score >= 3.5) {
+                    interpretation = 'Tinggi';
+                    interpretationClass = 'high';
+                } else if (score >= 2.5) {
+                    interpretation = 'Sedang';
+                    interpretationClass = 'medium';
+                } else {
+                    interpretation = 'Rendah';
+                    interpretationClass = 'low';
+                }
+                
+                const dimensionCard = document.createElement('div');
+                dimensionCard.classList.add('dimension-card');
+                dimensionCard.innerHTML = `
+                    <div class="dimension-header" style="background-color: ${dimensionData.color}">
+                        <div class="dimension-title">
+                            <div class="dimension-name">${dimensionData.name}</div>
+                            <div class="dimension-score">${score.toFixed(1)}</div>
+                        </div>
+                    </div>
+                    <div class="dimension-body">
+                        <p class="mb-3">${dimensionData.description}</p>
+                        
+                        <div class="score-bar">
+                            <div class="score-fill" style="background-color: ${dimensionData.color}; width: ${percentage}%"></div>
+                        </div>
+                        
+                        <div class="interpretation">
+                            <strong>Tingkat Ketahanan:</strong> 
+                            <span class="${interpretationClass}">${interpretation}</span>
+                        </div>
+                    </div>
+                `;
+                
+                dimensionResultsEl.appendChild(dimensionCard);
+            }
+
+              // Create and place the download button
+    const downloadBtn = document.createElement('button');
+    downloadBtn.id = 'download-pdf-btn';
+    downloadBtn.className = 'btn btn-danger ms-3';
+    downloadBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Unduh Hasil (PDF)';
+
+    // Add it next to the restart button
+    const buttonContainer = document.querySelector('.text-center.mt-4');
+    buttonContainer.appendChild(downloadBtn);
+
+    // PDF Generation Handler (INSIDE showResults)
+    downloadBtn.addEventListener('click', function() {
+        const element = document.getElementById('result-section');
+        const opt = {
+            filename: `Hasil_Tes_Ketahanan_${new Date().toLocaleDateString()}.pdf`,
+            html2canvas: { 
+                scale: 2,
+                scrollY: 0,
+                useCORS: true
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait' 
+            }
+        };
+        
+        // Add loading state
+        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Membuat PDF...';
+        downloadBtn.disabled = true;
+        
+        html2pdf()
+            .set(opt)
+            .from(element)
+            .save()
+            .finally(() => {
+                downloadBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Unduh Hasil (PDF)';
+                downloadBtn.disabled = false;
+            });
+    });
+        }
+
+function restartTest() {
+    currentQuestionIndex = 0;
+    userAnswers = Array(questions.length).fill(null);
+    
+    // Sembunyikan hasil dan tampilkan intro lagi
+    document.getElementById('result-section').style.display = 'none';
+    document.getElementById('intro-section').style.display = 'block';
+    document.getElementById('intro-section').style.opacity = '1';
+    document.querySelector('.progress-container').style.display = 'none';
+    
+    // Reset tampilan pertanyaan
+    document.getElementById('question-section').style.display = 'none';
+    document.getElementById('question-section').style.opacity = '0';
+    
+    // Reset tombol
+    prevBtn.disabled = true;
+    nextBtn.textContent = 'Selanjutnya';
+    nextBtn.classList.remove('btn-finish');
+    nextBtn.classList.add('btn-next');
+}
+      
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

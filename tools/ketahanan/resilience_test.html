@@ -381,6 +381,53 @@ body {
     opacity: 0;
     display: none;
 }
+
+/* Tambahkan ini di bagian CSS */
+.result-grade-container {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.grade-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.result-category {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.result-grade {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1rem auto;
+}
+
+.result-description {
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.text-center.mt-4 {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
     </style>
 </head>
 <body>
@@ -745,6 +792,61 @@ body {
             }
         };
 
+// Tambahkan setelah deklarasi dimensions
+function getOverallGrade(dimensionAverages) {
+    const coreDimensions = Object.keys(dimensions).filter(d => d !== 'lie_scale');
+    const totalScore = coreDimensions.reduce((sum, dim) => sum + dimensionAverages[dim], 0) / coreDimensions.length;
+    const lieScore = dimensionAverages.lie_scale;
+    
+    // Adjust score based on honesty
+    const adjustedScore = lieScore > 3.5 ? totalScore * 0.9 : lieScore < 2 ? totalScore * 1.1 : totalScore;
+    
+const grades = [
+    { 
+        threshold: 4.2,
+        grade: 'A+', 
+        name: 'Luar Biasa', 
+        icon: 'fas fa-trophy',
+        color: '#4e73df', // Biru (primary color)
+        description: 'Resilience Anda mengagumkan! Anda memiliki kemampuan luar biasa dalam menghadapi tantangan.'
+    },
+    { 
+        threshold: 3.8,
+        grade: 'A', 
+        name: 'Sangat Baik', 
+        icon: 'fas fa-star',
+        color: '#1cc88a', // Hijau (success color)
+        description: 'Anda memiliki ketahanan psikologis yang sangat kuat dan efektif.'
+    },
+    { 
+        threshold: 3.3,
+        grade: 'B', 
+        name: 'Baik', 
+        icon: 'fas fa-thumbs-up',
+        color: '#36b9cc', // Cyan (info color)
+        description: 'Ketahanan Anda baik, beberapa aspek masih bisa ditingkatkan.'
+    },
+    { 
+        threshold: 2.5,
+        grade: 'C', 
+        name: 'Cukup', 
+        icon: 'fas fa-check-circle',
+        color: '#f6c23e', // Kuning (warning color)
+        description: 'Ketahanan Anda cukup, pertimbangkan untuk mengembangkan lebih lanjut.'
+    },
+    { 
+        threshold: 0,
+        grade: 'D', 
+        name: 'Perlu Peningkatan', 
+        icon: 'fas fa-seedling',
+        color: '#e74a3b', // Merah (danger color)
+        description: 'Ada banyak ruang untuk meningkatkan ketahanan psikologis Anda.'
+    }
+];
+
+    return grades.find(g => adjustedScore >= g.threshold) || grades[grades.length-1];
+}
+        
         // Variabel state
         let currentQuestionIndex = 0;
         let userAnswers = Array(questions.length).fill(null);
@@ -947,6 +1049,20 @@ function init() {
             // Sembunyikan bagian pertanyaan, tampilkan hasil
             questionSectionEl.style.display = 'none';
             resultSectionEl.style.display = 'block';
+
+    // Dapatkan grade keseluruhan
+    const overallGrade = getOverallGrade(dimensionAverages);
+    
+    // Buat tampilan grade
+    const gradeContainer = document.createElement('div');
+    gradeContainer.className = 'result-grade-container';
+    gradeContainer.innerHTML = `
+        <div class="grade-icon"><i class="${overallGrade.icon}"></i></div>
+        <div class="result-category">${overallGrade.name}</div>
+        <div class="result-grade" style="background: ${overallGrade.color}">${overallGrade.grade}</div>
+        <div class="result-description">${overallGrade.description}</div>
+    `;
+    resultSectionEl.insertBefore(gradeContainer, resultSectionEl.firstChild);
             
             // Tampilkan skor kejujuran
             const lieScore = dimensionAverages.lie_scale;
@@ -1012,16 +1128,19 @@ function init() {
                 dimensionResultsEl.appendChild(dimensionCard);
             }
 
-              // Create and place the download button
-    const downloadBtn = document.createElement('button');
-    downloadBtn.id = 'download-pdf-btn';
-    downloadBtn.className = 'btn btn-danger ms-3';
-    downloadBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Unduh Hasil (PDF)';
+// Ganti kode pembuatan tombol PDF dengan:
+const buttonContainer = document.querySelector('.text-center.mt-4');
+buttonContainer.style.display = 'flex';
+buttonContainer.style.justifyContent = 'center';
+buttonContainer.style.gap = '15px';
+buttonContainer.style.flexWrap = 'wrap';
 
-    // Add it next to the restart button
-    const buttonContainer = document.querySelector('.text-center.mt-4');
-    buttonContainer.appendChild(downloadBtn);
-
+const downloadBtn = document.createElement('button');
+downloadBtn.id = 'download-pdf-btn';
+downloadBtn.className = 'btn btn-danger';
+downloadBtn.innerHTML = '<i class="fas fa-file-pdf me-2"></i>Unduh PDF';
+buttonContainer.appendChild(downloadBtn);
+            
     // PDF Generation Handler (INSIDE showResults)
     downloadBtn.addEventListener('click', function() {
         const element = document.getElementById('result-section');

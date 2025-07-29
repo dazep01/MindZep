@@ -791,7 +791,7 @@
                 document.getElementById('burnout-interpretation').textContent = getBurnoutInterpretation(scores.percentage.burnout);
                 
                 // Reflection
-                document.getElementById('reflection-text').textContent = generateReflection(scores);
+                document.getElementById('reflection-text').innerHTML = generateReflection(scores).replace(/\n/g, '<br>');
             }
             
             function downloadPDF() {

@@ -1,492 +1,642 @@
 [
-  {
-    "id": 1,
-    "dimension": "Control",
-    "question": "Saat mengalami kegagalan dalam proyek penting, bagaimana sikapmu?",
-    "options": [
-      "Aku merasa lumpuh dan bingung harus bagaimana",
-      "Aku mencoba menerima dan berpikir ulang rencanaku",
-      "Aku fokus pada apa yang masih bisa kulakukan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kendali batin adalah kekuatan pertama dalam menghadapi ujian."
-  },
-  {
-    "id": 2,
-    "dimension": "Control",
-    "question": "Ketika rencana terganggu oleh hal di luar kendali, kamu merasa...",
-    "options": [
-      "Segalanya jadi tidak mungkin dijalankan",
-      "Ada sedikit celah, tapi sulit dimanfaatkan",
-      "Masih ada bagian yang bisa kuusahakan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Bahkan badai tidak bisa menggoyahkan jiwa yang punya keteguhan fokus."
-  },
-  {
-    "id": 3,
-    "dimension": "Control",
-    "question": "Jika kamu terlambat karena macet berat, bagaimana kamu merespon?",
-    "options": [
-      "Aku kesal dan menyalahkan keadaan",
-      "Aku mencoba menenangkan diri sambil menunggu",
-      "Aku cari alternatif solusi, seperti mengabari atau alihkan rute"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kendali bukan soal situasi, tapi bagaimana kita meresponnya."
-  },
-  {
-    "id": 4,
-    "dimension": "Control",
-    "question": "Saat orang lain mengecewakanmu, kamu cenderung...",
-    "options": [
-      "Putus asa dan merasa tak bisa berbuat apa-apa",
-      "Mencoba memahami tapi tetap kecewa",
-      "Mengatur ulang harapan dan bertindak sesuai yang bisa dikendalikan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Mengendalikan ekspektasi adalah bagian dari kedewasaan."
-  },
-  {
-    "id": 5,
-    "dimension": "Control",
-    "question": "Di tengah tekanan berat, kamu lebih sering...",
-    "options": [
-      "Membiarkan semuanya berjalan tanpa arah",
-      "Berpikir sambil menunggu kondisi membaik",
-      "Mencari celah kecil untuk tetap melangkah"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kekuatan sejati tampak saat segala sesuatu tak lagi pasti."
-  },
-
-  {
-    "id": 6,
-    "dimension": "Ownership",
-    "question": "Jika hasil kerjamu dikritik keras, kamu biasanya...",
-    "options": [
-      "Langsung menyalahkan faktor eksternal",
-      "Berusaha menerima meski merasa tidak adil",
-      "Mencari celah perbaikan dalam diriku"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Tanggung jawab bukan beban, tapi jembatan menuju perubahan."
-  },
-  {
-    "id": 7,
-    "dimension": "Ownership",
-    "question": "Saat timmu gagal mencapai target, kamu merasa...",
-    "options": [
-      "Bukan urusanku, yang lain lebih bertanggung jawab",
-      "Aku ikut bertanggung jawab, tapi sebagian kecil saja",
-      "Aku merefleksi peranku dan belajar dari kesalahan tim"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Pemilik sejati keberhasilan adalah mereka yang juga mau memikul kegagalan."
-  },
-  {
-    "id": 8,
-    "dimension": "Ownership",
-    "question": "Ketika masalah muncul berulang, kamu berpikir...",
-    "options": [
-      "Lingkungan dan orang sekitar memang menyebalkan",
-      "Mungkin aku kurang tepat menyikapi",
-      "Aku harus perbaiki pola sikap dan pendekatanku"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Salah satu ciri jiwa matang adalah keberanian mengevaluasi diri."
-  },
-  {
-    "id": 9,
-    "dimension": "Ownership",
-    "question": "Saat konflik muncul, kamu cenderung...",
-    "options": [
-      "Menarik diri dan membiarkan orang lain yang bertanggung jawab",
-      "Menunggu sampai suasana reda baru bertindak",
-      "Mencari tahu kontribusiku dalam konflik tersebut"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Mengakui kesalahan tak melemahkan, justru menguatkan karakter."
-  },
-  {
-    "id": 10,
-    "dimension": "Ownership",
-    "question": "Jika pekerjaanmu gagal total, kamu akan...",
-    "options": [
-      "Berhenti dan menyimpulkan 'aku memang gagal'",
-      "Mengeluh tapi tetap lanjut esoknya",
-      "Menuliskan hal yang bisa kupelajari dari kegagalan ini"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Tanggung jawab sejati dimulai saat kita berhenti menyalahkan dunia."
-  },
-
-  {
-    "id": 11,
-    "dimension": "Reach",
-    "question": "Saat terjadi konflik di keluarga, dampaknya ke hal lain adalah...",
-    "options": [
-      "Semua jadi kacau, bahkan pekerjaan ikut terganggu",
-      "Fokus terganggu tapi masih bisa jalan",
-      "Aku berusaha memisahkan masalah agar tidak meluas"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Masalah yang besar tidak selalu harus menyelimuti seluruh hidupmu."
-  },
-  {
-    "id": 12,
-    "dimension": "Reach",
-    "question": "Jika satu tugas gagal, kamu merasa...",
-    "options": [
-      "Seluruh hidupku berantakan",
-      "Sebagian diriku ikut kecewa",
-      "Tugas itu gagal, tapi aku masih bisa berhasil di area lain"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Keutuhan diri tidak ditentukan oleh satu kegagalan."
-  },
-  {
-    "id": 13,
-    "dimension": "Reach",
-    "question": "Saat merasa sedih, apakah hal lain ikut terkena dampaknya?",
-    "options": [
-      "Semua aspek hidup ikut murung",
-      "Beberapa hal ikut terbawa",
-      "Aku tetap berusaha menjaga agar aspek lain tetap stabil"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Menghadapi kesedihan bukan berarti membiarkannya menguasai segalanya."
-  },
-  {
-    "id": 14,
-    "dimension": "Reach",
-    "question": "Jika ada kritik dari satu orang, kamu biasanya...",
-    "options": [
-      "Merasa semua orang membenciku",
-      "Membawa rasa kecewa itu ke relasi lain",
-      "Memisahkan kritik personal dari hubungan lain"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Masalah kecil tak perlu menjadi badai besar jika kita cukup bijak."
-  },
-  {
-    "id": 15,
-    "dimension": "Reach",
-    "question": "Jika satu target gagal, kamu merasa...",
-    "options": [
-      "Motivasi semua hal jadi hilang",
-      "Butuh waktu memulihkan fokus ke yang lain",
-      "Aku tetap berusaha di area yang masih mungkin berhasil"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Ketegaran adalah kemampuan untuk menjaga cahaya di tengah kegelapan."
-  },
-
-  {
-    "id": 16,
-    "dimension": "Endurance",
-    "question": "Saat sedang ada masalah berat, kamu merasa...",
-    "options": [
-      "Ini akan berlangsung selamanya",
-      "Semoga hanya bertahan beberapa waktu",
-      "Setiap masalah pasti akan berlalu"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Sungguh bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)"
-  },
-  {
-    "id": 17,
-    "dimension": "Endurance",
-    "question": "Ketika diuji secara finansial, kamu merasa...",
-    "options": [
-      "Aku akan terus hidup dalam kekurangan",
-      "Aku belum tahu kapan bisa keluar dari ini",
-      "InsyaAllah ini hanya fase menuju kematangan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Tak ada luka yang abadi bagi jiwa yang bertawakal."
-  },
-  {
-    "id": 18,
-    "dimension": "Endurance",
-    "question": "Jika kamu sakit secara fisik atau mental, kamu akan...",
-    "options": [
-      "Menganggap ini nasib selamanya",
-      "Menunggu dan berharap pulih",
-      "Yakin bahwa Allah mencintai melalui ujian"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Ujian bukan akhir, tapi jembatan menuju penguatan jiwa."
-  },
-  {
-    "id": 19,
-    "dimension": "Endurance",
-    "question": "Ketika relasi penting retak, kamu cenderung berpikir...",
-    "options": [
-      "Hidup sosialku akan hancur total",
-      "Akan sulit membangun hubungan baru",
-      "Setiap luka pasti bisa sembuh dan tergantikan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Keteguhan adalah kemampuan melihat harapan bahkan saat runtuh."
-  },
-  {
-    "id": 20,
-    "dimension": "Endurance",
-    "question": "Jika pekerjaan impian gagal, kamu merasa...",
-    "options": [
-      "Aku tidak akan pernah punya kesempatan lagi",
-      "Butuh waktu lama untuk memulihkan harapan",
-      "Pasti ada jalan lebih baik yang Allah siapkan"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kegagalan dunia bukan berarti kegagalan hidup. Allah Maha Menyusun."
-  },
-  // Reverse-scored items (10 soal)
-  {
-    "id": 21,
-    "dimension": "Control",
-    "question": "Ketika masalah muncul, aku merasa tidak mungkin bisa mengendalikan situasi sama sekali",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Keyakinan akan kemampuan mengendalikan situasi adalah langkah pertama menuju solusi."
-  },
-  {
-    "id": 22,
-    "dimension": "Ownership",
-    "question": "Aku percaya bahwa kegagalan hampir selalu disebabkan oleh faktor eksternal di luar kendaliku",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Mengakui peran pribadi adalah pintu menuju pertumbuhan."
-  },
-  {
-    "id": 23,
-    "dimension": "Reach",
-    "question": "Masalah kecil sekalipun biasanya merusak semua aspek hidupku",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Membatasi dampak masalah adalah keterampilan ketahanan yang penting."
-  },
-  {
-    "id": 24,
-    "dimension": "Endurance",
-    "question": "Ketika mengalami kesulitan, aku sering merasa ini akan berlangsung selamanya",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Setiap badai pasti berlalu, setiap malam diikuti pagi."
-  },
-  {
-    "id": 25,
-    "dimension": "Control",
-    "question": "Aku cenderung menyerah ketika menghadapi rintangan yang tampak sulit",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Ketekunan seringkali membuka jalan yang awalnya tampak tertutup."
-  },
-
-  // Lie scale items (10 soal)
-  {
-    "id": 26,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah sekalipun berbohong dalam hidupku",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kejujuran tentang ketidaksempurnaan adalah dasar pertumbuhan sejati."
-  },
-  {
-    "id": 27,
-    "dimension": "LieScale",
-    "question": "Aku selalu bersikap sempurna dalam setiap situasi sosial",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Menerima ketidaksempurnaan manusiawi adalah tanda kedewasaan."
-  },
-  {
-    "id": 28,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah merasa iri atau cemburu pada siapapun",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Emosi manusiawi adalah bagian dari pengalaman hidup yang otentik."
-  },
-  {
-    "id": 29,
-    "dimension": "LieScale",
-    "question": "Aku selalu membuat keputusan yang 100% rasional tanpa pengaruh emosi",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Keseimbangan antara logika dan emosi adalah kecerdasan sejati."
-  },
-  {
-    "id": 30,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah melakukan kesalahan yang sama dua kali",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Belajar dari kesalahan adalah proses yang lebih penting daripada kesempurnaan."
-
-  // Tambahan reverse-scored (5 soal)
-  },
-  {
-    "id": 31,
-    "dimension": "Ownership",
-    "question": "Ketika tim gagal, itu hampir pasti bukan karena kontribusiku",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Tanggung jawab kolektif adalah fondasi tim yang kuat."
-  },
-  {
-    "id": 32,
-    "dimension": "Reach",
-    "question": "Kegagalan di satu area biasanya membuat semua bidang hidupku kacau",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Membangun sekat antar berbagai bidang hidup adalah perlindungan ketahanan."
-  },
-  {
-    "id": 33,
-    "dimension": "Endurance",
-    "question": "Rasa sakit emosional biasanya terasa permanen bagiku",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Waktu dan kesadaran adalah penyembuh luka yang paling alami."
-  },
-  {
-    "id": 34,
-    "dimension": "Control",
-    "question": "Aku sering merasa menjadi korban keadaan tanpa daya ubah",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Mengakui kekuatan pribadi adalah langkah pertama menuju perubahan."
-  },
-  {
-    "id": 35,
-    "dimension": "Ownership",
-    "question": "Mengakui kesalahan membuatku merasa lemah dan inferior",
-    "options": [
-      "Sangat tidak setuju",
-      "Netral",
-      "Sangat setuju"
-    ],
-    "weights": [3, 2, 1], // Reverse scoring
-    "reflection": "Kerendahan hati untuk mengakui kesalahan adalah kekuatan karakter sejati."
-
-  // Tambahan lie scale (5 soal)
-  },
-  {
-    "id": 36,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah merasa ragu atau tidak yakin tentang keputusanku",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Keraguan yang diakui adalah pintu menuju pertimbangan yang lebih matang."
-  },
-  {
-    "id": 37,
-    "dimension": "LieScale",
-    "question": "Aku selalu 100% konsisten antara kata-kata dan perbuatanku",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Keotentikan lebih bernilai daripada kesempurnaan semu."
-  },
-  {
-    "id": 38,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah mengalami konflik batin atau pertentangan nilai",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Perjalanan pertumbuhan sering diwarnai pergulatan batin yang produktif."
-  },
-  {
-    "id": 39,
-    "dimension": "LieScale",
-    "question": "Setiap tindakanku selalu didasarkan pada pertimbangan moral yang sempurna",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Kejujuran tentang ketidaksempurnaan moral adalah dasar integritas sejati."
-  },
-  {
-    "id": 40,
-    "dimension": "LieScale",
-    "question": "Aku tidak pernah merasa perlu menyembunyikan kesalahan atau kelemahanku",
-    "options": [
-      "Tidak benar",
-      "Kadang-kadang",
-      "Selalu benar"
-    ],
-    "weights": [1, 2, 3],
-    "reflection": "Vulnerabilitas yang tulus adalah kekuatan hubungan manusia."
-  }
+    {
+        "id": 1,
+        "dimension": "Control",
+        "question": "Saat mengalami kegagalan dalam proyek penting, bagaimana sikapmu?",
+        "options": [
+            "Aku merasa lumpuh dan bingung harus bagaimana",
+            "Aku mencoba menerima dan berpikir ulang rencanaku",
+            "Aku fokus pada apa yang masih bisa kulakukan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kendali batin adalah kekuatan pertama dalam menghadapi ujian."
+    },
+    {
+        "id": 2,
+        "dimension": "Control",
+        "question": "Ketika rencana terganggu oleh hal di luar kendali, kamu merasa...",
+        "options": [
+            "Segalanya jadi tidak mungkin dijalankan",
+            "Ada sedikit celah, tapi sulit dimanfaatkan",
+            "Masih ada bagian yang bisa kuusahakan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Bahkan badai tidak bisa menggoyahkan jiwa yang punya keteguhan fokus."
+    },
+    {
+        "id": 3,
+        "dimension": "Control",
+        "question": "Jika kamu terlambat karena macet berat, bagaimana kamu merespon?",
+        "options": [
+            "Aku kesal dan menyalahkan keadaan",
+            "Aku mencoba menenangkan diri sambil menunggu",
+            "Aku cari alternatif solusi, seperti mengabari atau alihkan rute"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kendali bukan soal situasi, tapi bagaimana kita meresponnya."
+    },
+    {
+        "id": 4,
+        "dimension": "Control",
+        "question": "Saat orang lain mengecewakanmu, kamu cenderung...",
+        "options": [
+            "Putus asa dan merasa tak bisa berbuat apa-apa",
+            "Mencoba memahami tapi tetap kecewa",
+            "Mengatur ulang harapan dan bertindak sesuai yang bisa dikendalikan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Mengendalikan ekspektasi adalah bagian dari kedewasaan."
+    },
+    {
+        "id": 5,
+        "dimension": "Control",
+        "question": "Di tengah tekanan berat, kamu lebih sering...",
+        "options": [
+            "Membiarkan semuanya berjalan tanpa arah",
+            "Berpikir sambil menunggu kondisi membaik",
+            "Mencari celah kecil untuk tetap melangkah"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kekuatan sejati tampak saat segala sesuatu tak lagi pasti."
+    },
+    {
+        "id": 6,
+        "dimension": "Ownership",
+        "question": "Jika hasil kerjamu dikritik keras, kamu biasanya...",
+        "options": [
+            "Langsung menyalahkan faktor eksternal",
+            "Berusaha menerima meski merasa tidak adil",
+            "Mencari celah perbaikan dalam diriku"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Tanggung jawab bukan beban, tapi jembatan menuju perubahan."
+    },
+    {
+        "id": 7,
+        "dimension": "Ownership",
+        "question": "Saat timmu gagal mencapai target, kamu merasa...",
+        "options": [
+            "Bukan urusanku, yang lain lebih bertanggung jawab",
+            "Aku ikut bertanggung jawab, tapi sebagian kecil saja",
+            "Aku merefleksi peranku dan belajar dari kesalahan tim"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Pemilik sejati keberhasilan adalah mereka yang juga mau memikul kegagalan."
+    },
+    {
+        "id": 8,
+        "dimension": "Ownership",
+        "question": "Ketika masalah muncul berulang, kamu berpikir...",
+        "options": [
+            "Lingkungan dan orang sekitar memang menyebalkan",
+            "Mungkin aku kurang tepat menyikapi",
+            "Aku harus perbaiki pola sikap dan pendekatanku"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Salah satu ciri jiwa matang adalah keberanian mengevaluasi diri."
+    },
+    {
+        "id": 9,
+        "dimension": "Ownership",
+        "question": "Saat konflik muncul, kamu cenderung...",
+        "options": [
+            "Menarik diri dan membiarkan orang lain yang bertanggung jawab",
+            "Menunggu sampai suasana reda baru bertindak",
+            "Mencari tahu kontribusiku dalam konflik tersebut"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Mengakui kesalahan tak melemahkan, justru menguatkan karakter."
+    },
+    {
+        "id": 10,
+        "dimension": "Ownership",
+        "question": "Jika pekerjaanmu gagal total, kamu akan...",
+        "options": [
+            "Berhenti dan menyimpulkan 'aku memang gagal'",
+            "Mengeluh tapi tetap lanjut esoknya",
+            "Menuliskan hal yang bisa kupelajari dari kegagalan ini"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Tanggung jawab sejati dimulai saat kita berhenti menyalahkan dunia."
+    },
+    {
+        "id": 11,
+        "dimension": "Reach",
+        "question": "Saat terjadi konflik di keluarga, dampaknya ke hal lain adalah...",
+        "options": [
+            "Semua jadi kacau, bahkan pekerjaan ikut terganggu",
+            "Fokus terganggu tapi masih bisa jalan",
+            "Aku berusaha memisahkan masalah agar tidak meluas"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Masalah yang besar tidak selalu harus menyelimuti seluruh hidupmu."
+    },
+    {
+        "id": 12,
+        "dimension": "Reach",
+        "question": "Jika satu tugas gagal, kamu merasa...",
+        "options": [
+            "Seluruh hidupku berantakan",
+            "Sebagian diriku ikut kecewa",
+            "Tugas itu gagal, tapi aku masih bisa berhasil di area lain"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Keutuhan diri tidak ditentukan oleh satu kegagalan."
+    },
+    {
+        "id": 13,
+        "dimension": "Reach",
+        "question": "Saat merasa sedih, apakah hal lain ikut terkena dampaknya?",
+        "options": [
+            "Semua aspek hidup ikut murung",
+            "Beberapa hal ikut terbawa",
+            "Aku tetap berusaha menjaga agar aspek lain tetap stabil"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Menghadapi kesedihan bukan berarti membiarkannya menguasai segalanya."
+    },
+    {
+        "id": 14,
+        "dimension": "Reach",
+        "question": "Jika ada kritik dari satu orang, kamu biasanya...",
+        "options": [
+            "Merasa semua orang membenciku",
+            "Membawa rasa kecewa itu ke relasi lain",
+            "Memisahkan kritik personal dari hubungan lain"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Masalah kecil tak perlu menjadi badai besar jika kita cukup bijak."
+    },
+    {
+        "id": 15,
+        "dimension": "Reach",
+        "question": "Jika satu target gagal, kamu merasa...",
+        "options": [
+            "Motivasi semua hal jadi hilang",
+            "Butuh waktu memulihkan fokus ke yang lain",
+            "Aku tetap berusaha di area yang masih mungkin berhasil"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Ketegaran adalah kemampuan untuk menjaga cahaya di tengah kegelapan."
+    },
+    {
+        "id": 16,
+        "dimension": "Endurance",
+        "question": "Saat sedang ada masalah berat, kamu merasa...",
+        "options": [
+            "Ini akan berlangsung selamanya",
+            "Semoga hanya bertahan beberapa waktu",
+            "Setiap masalah pasti akan berlalu"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Sungguh bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)"
+    },
+    {
+        "id": 17,
+        "dimension": "Endurance",
+        "question": "Ketika diuji secara finansial, kamu merasa...",
+        "options": [
+            "Aku akan terus hidup dalam kekurangan",
+            "Aku belum tahu kapan bisa keluar dari ini",
+            "InsyaAllah ini hanya fase menuju kematangan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Tak ada luka yang abadi bagi jiwa yang bertawakal."
+    },
+    {
+        "id": 18,
+        "dimension": "Endurance",
+        "question": "Jika kamu sakit secara fisik atau mental, kamu akan...",
+        "options": [
+            "Menganggap ini nasib selamanya",
+            "Menunggu dan berharap pulih",
+            "Yakin bahwa Allah mencintai melalui ujian"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Ujian bukan akhir, tapi jembatan menuju penguatan jiwa."
+    },
+    {
+        "id": 19,
+        "dimension": "Endurance",
+        "question": "Ketika relasi penting retak, kamu cenderung berpikir...",
+        "options": [
+            "Hidup sosialku akan hancur total",
+            "Akan sulit membangun hubungan baru",
+            "Setiap luka pasti bisa sembuh dan tergantikan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Keteguhan adalah kemampuan melihat harapan bahkan saat runtuh."
+    },
+    {
+        "id": 20,
+        "dimension": "Endurance",
+        "question": "Jika pekerjaan impian gagal, kamu merasa...",
+        "options": [
+            "Aku tidak akan pernah punya kesempatan lagi",
+            "Butuh waktu lama untuk memulihkan harapan",
+            "Pasti ada jalan lebih baik yang Allah siapkan"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kegagalan dunia bukan berarti kegagalan hidup. Allah Maha Menyusun."
+    },
+    {
+        "id": 21,
+        "dimension": "Control",
+        "question": "Ketika masalah muncul, aku merasa tidak mungkin bisa mengendalikan situasi sama sekali",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Keyakinan akan kemampuan mengendalikan situasi adalah langkah pertama menuju solusi."
+    },
+    {
+        "id": 22,
+        "dimension": "Ownership",
+        "question": "Aku percaya bahwa kegagalan hampir selalu disebabkan oleh faktor eksternal di luar kendaliku",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Mengakui peran pribadi adalah pintu menuju pertumbuhan."
+    },
+    {
+        "id": 23,
+        "dimension": "Reach",
+        "question": "Masalah kecil sekalipun biasanya merusak semua aspek hidupku",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Membatasi dampak masalah adalah keterampilan ketahanan yang penting."
+    },
+    {
+        "id": 24,
+        "dimension": "Endurance",
+        "question": "Ketika mengalami kesulitan, aku sering merasa ini akan berlangsung selamanya",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Setiap badai pasti berlalu, setiap malam diikuti pagi."
+    },
+    {
+        "id": 25,
+        "dimension": "Control",
+        "question": "Aku cenderung menyerah ketika menghadapi rintangan yang tampak sulit",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Ketekunan seringkali membuka jalan yang awalnya tampak tertutup."
+    },
+    {
+        "id": 26,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah sekalipun berbohong dalam hidupku",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kejujuran tentang ketidaksempurnaan adalah dasar pertumbuhan sejati."
+    },
+    {
+        "id": 27,
+        "dimension": "LieScale",
+        "question": "Aku selalu bersikap sempurna dalam setiap situasi sosial",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Menerima ketidaksempurnaan manusiawi adalah tanda kedewasaan."
+    },
+    {
+        "id": 28,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah merasa iri atau cemburu pada siapapun",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Emosi manusiawi adalah bagian dari pengalaman hidup yang otentik."
+    },
+    {
+        "id": 29,
+        "dimension": "LieScale",
+        "question": "Aku selalu membuat keputusan yang 100% rasional tanpa pengaruh emosi",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Keseimbangan antara logika dan emosi adalah kecerdasan sejati."
+    },
+    {
+        "id": 30,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah melakukan kesalahan yang sama dua kali",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Belajar dari kesalahan adalah proses yang lebih penting daripada kesempurnaan."
+    },
+    {
+        "id": 31,
+        "dimension": "Ownership",
+        "question": "Ketika tim gagal, itu hampir pasti bukan karena kontribusiku",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Tanggung jawab kolektif adalah fondasi tim yang kuat."
+    },
+    {
+        "id": 32,
+        "dimension": "Reach",
+        "question": "Kegagalan di satu area biasanya membuat semua bidang hidupku kacau",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Membangun sekat antar berbagai bidang hidup adalah perlindungan ketahanan."
+    },
+    {
+        "id": 33,
+        "dimension": "Endurance",
+        "question": "Rasa sakit emosional biasanya terasa permanen bagiku",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Waktu dan kesadaran adalah penyembuh luka yang paling alami."
+    },
+    {
+        "id": 34,
+        "dimension": "Control",
+        "question": "Aku sering merasa menjadi korban keadaan tanpa daya ubah",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Mengakui kekuatan pribadi adalah langkah pertama menuju perubahan."
+    },
+    {
+        "id": 35,
+        "dimension": "Ownership",
+        "question": "Mengakui kesalahan membuatku merasa lemah dan inferior",
+        "options": [
+            "Sangat tidak setuju",
+            "Netral",
+            "Sangat setuju"
+        ],
+        "weights": [
+            3,
+            2,
+            1
+        ],
+        "reflection": "Kerendahan hati untuk mengakui kesalahan adalah kekuatan karakter sejati."
+    },
+    {
+        "id": 36,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah merasa ragu atau tidak yakin tentang keputusanku",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Keraguan yang diakui adalah pintu menuju pertimbangan yang lebih matang."
+    },
+    {
+        "id": 37,
+        "dimension": "LieScale",
+        "question": "Aku selalu 100% konsisten antara kata-kata dan perbuatanku",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Keotentikan lebih bernilai daripada kesempurnaan semu."
+    },
+    {
+        "id": 38,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah mengalami konflik batin atau pertentangan nilai",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Perjalanan pertumbuhan sering diwarnai pergulatan batin yang produktif."
+    },
+    {
+        "id": 39,
+        "dimension": "LieScale",
+        "question": "Setiap tindakanku selalu didasarkan pada pertimbangan moral yang sempurna",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Kejujuran tentang ketidaksempurnaan moral adalah dasar integritas sejati."
+    },
+    {
+        "id": 40,
+        "dimension": "LieScale",
+        "question": "Aku tidak pernah merasa perlu menyembunyikan kesalahan atau kelemahanku",
+        "options": [
+            "Tidak benar",
+            "Kadang-kadang",
+            "Selalu benar"
+        ],
+        "weights": [
+            1,
+            2,
+            3
+        ],
+        "reflection": "Vulnerabilitas yang tulus adalah kekuatan hubungan manusia."
+    }
 ]

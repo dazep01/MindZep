@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Hasil Tes IQ</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans p-4">
+  <div id="loading" class="text-center py-10">
+    <div class="animate-spin mb-4 text-blue-600"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+    <p class="text-lg">Sedang memuat data hasil tes...</p>
+  </div>
+
+  <div id="reviewContent" class="hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-blue-700">Review Jawaban Tes IQ</h1>
+      <button onclick="window.close()" class="fixed bottom-6 right-6 bg-red-600 text-white px-4 py-2 rounded-full shadow-lg z-50 hover:bg-red-700">
+        ✖ Tutup Review
+      </button>
+    </div>
+
+    <div id="questionList" class="space-y-6 mb-10"></div>
+
+    <div class="bg-blue-50 p-4 rounded-lg">
+      <h2 class="text-xl font-bold mb-2">Perhitungan Skor</h2>
+      <div id="calculationExplanation"></div>
+    </div>
+
+    <div class="mt-6 flex justify-end space-x-3">
+      <button onclick="downloadReview()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        Unduh Review (PDF)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let iqReviewData = null;
+
+    window.addEventListener("message", function (event) {
+      if (!event.data?.type || event.data.type !== "iqReviewData") return;
+      iqReviewData = event.data.payload;
+      renderReview(iqReviewData);
+    });
+
+    function renderReview(data) {
+      document.getElementById("loading").classList.add("hidden");
+      document.getElementById("reviewContent").classList.remove("hidden");
+      
+      const heading = document.createElement('div');
+        heading.className = 'mb-4 text-lg';
+        heading.innerHTML = data.userName ? `<b>Nama:</b> ${data.userName}` : '';
+        document.getElementById('reviewContent').prepend(heading);
+
+      const container = document.getElementById("questionList");
+      container.innerHTML = data.iqQuestions.map((q, idx) => {
+        const userAns = data.iqAnswers[idx]?.answer ?? '-';
+        const correctAns = Array.isArray(q.answer) ? q.answer.map(a => q.options[a]).join(' atau ') : q.options[q.answer];
+        const explanation = q.explanation || '-';
+
+        return `
+          <div class="border-b pb-4">
+            <div class="flex justify-between items-start">
+              <div class="font-semibold">Soal ${idx + 1}:</div>
+            </div>
+            <p class="my-2">${q.question}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div class="bg-gray-50 p-3 rounded">
+                <div class="text-sm text-gray-500">Jawaban Anda:</div>
+                <div>${formatUserAnswer(userAns, q)}</div>
+              </div>
+              <div class="bg-blue-50 p-3 rounded">
+                <div class="text-sm text-blue-500">Jawaban Benar:</div>
+                <div>${correctAns}</div>
+              </div>
+            </div>
+            <div class="mt-2 text-sm italic text-gray-600">${explanation}</div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById("calculationExplanation").innerHTML = generateCalculationExplanation(data);
+    }
+
+    function formatUserAnswer(answer, question) {
+      if (Array.isArray(question.options) && !isNaN(answer)) {
+        return question.options[answer] || answer;
+      }
+      return answer;
+    }
+
+    function generateCalculationExplanation(data) {
+      const maxScore = data.iqQuestions.reduce((sum, q) => sum + (Array.isArray(q.answer) ? q.answer.length : 1), 0);
+      const userScore = data.iqAnswers.reduce((sum, ans, idx) => {
+        const correct = data.iqQuestions[idx].answer;
+        const isCorrect = Array.isArray(correct) ? correct.includes(ans.answer) : ans.answer == correct;
+        return sum + (isCorrect ? 1 : 0);
+      }, 0);
+
+      const accuracy = (userScore / maxScore) * 100;
+      const minutes = (new Date(data.endTime) - new Date(data.startTime)) / 60000;
+      const speed = data.iqQuestions.length / Math.max(0.1, minutes);
+      const estimatedIQ = data.score;
+
+      return `
+        <ul class="list-disc pl-5 space-y-2 text-sm">
+          <li>Total Skor: <b>${userScore}</b> dari <b>${maxScore}</b></li>
+          <li>Akurasi: <b>${accuracy.toFixed(1)}%</b></li>
+          <li>Kecepatan: <b>${speed.toFixed(2)} soal/menit</b></li>
+          <li>Skor IQ Estimasi: <b>${estimatedIQ}</b></li>
+        </ul>
+        <p class="text-xs text-gray-500 mt-2">* Perhitungan bersifat estimasi dan berbasis waktu serta akurasi.</p>
+      `;
+    }
+
+    function downloadReview() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Review Hasil Tes IQ", 105, 15, { align: "center" });
+      doc.setFontSize(12);
+      if (iqReviewData.userName) {
+         doc.setFontSize(12);
+         doc.text(`Nama: ${iqReviewData.userName}`, 14, 22);
+      }
+      doc.text("Jawaban dan Evaluasi:", 14, 25);
+
+      let y = 35;
+      iqReviewData.iqQuestions.forEach((q, i) => {
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        const ans = iqReviewData.iqAnswers[i]?.answer ?? "-";
+        const correct = Array.isArray(q.answer) ? q.answer.map(a => q.options[a]).join(' atau ') : q.options[q.answer];
+
+        doc.text(`${i + 1}. ${q.question}`, 14, y); y += 6;
+        doc.text(`Jawaban Anda: ${formatUserAnswer(ans, q)}`, 20, y); y += 5;
+        doc.text(`Jawaban Benar: ${correct}`, 20, y); y += 5;
+        if (q.explanation) {
+          doc.text(`Penjelasan: ${q.explanation}`, 20, y); y += 8;
+        }
+        doc.line(14, y, 200, y); y += 6;
+      });
+
+      doc.save("review_tes_iq.pdf");
+    }
+  </script>
+</body>
+</html>
